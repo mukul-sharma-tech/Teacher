@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About EduFeedback - AI-Powered Teacher Assistant</title>
+    <link rel="icon" href="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" type="image/icon type">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #2e59a4;
+            --accent-color: #1cc88a;
+            --dark-color: #5a5c69;
+            --light-color: #f8f9fc;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-color);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            transition: all 0.3s;
+            padding: 15px 0;
+        }
+        
+        .navbar.scrolled {
+            padding: 10px 0;
+            background-color: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .navbar-brand span {
+            color: var(--accent-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 150px 0 100px;
+        }
+        
+        .mission-card {
+            border-left: 5px solid var(--accent-color);
+            transition: transform 0.3s;
+        }
+        
+        .mission-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border: 5px solid var(--light-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            border: 3px solid var(--primary-color);
+        }
+        
+        .impact-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><span>Edu</span>Feedback</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/EduAI">EduAI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/MockInterview">AI Teacher Convo</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="/login">Teacher Login</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary ms-2" href="/register">Register School</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4">About EduFeedback</h1>
+            <p class="lead">Revolutionizing education through AI-powered teacher support</p>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-4">Our Story</h2>
+                    <p class="lead">Born from the challenges faced by educators in overworked classrooms.</p>
+                    <p>EduFeedback was founded in 2023 by a team of former teachers, AI researchers, and education technologists who saw firsthand the unsustainable workload burdening today's educators. We witnessed talented teachers spending countless hours grading papers instead of doing what they do best - teaching and mentoring students.</p>
+                    <p>Our mission began with a simple question: How can we use artificial intelligence to give teachers back their most valuable resource - time - while simultaneously improving the quality of feedback students receive?</p>
+                    <a href="/contact" class="btn btn-primary mt-3">Meet Our Team</a>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.unsplash.com/photo-1524179091875-bf99a9a6af57?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Teacher grading papers" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission and Vision -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Our Mission & Vision</h2>
+                <p class="lead">Transforming education through technology</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100 mission-card">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-bullseye fa-3x text-primary"></i>
+                            </div>
+                            <h4 class="text-center mb-3">Our Mission</h4>
+                            <p>To empower educators by reducing their administrative workload through AI, enabling them to focus on what matters most - inspiring and guiding their students. We strive to make quality, personalized feedback accessible to every student, regardless of class size or school resources.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 mission-card">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-eye fa-3x text-primary"></i>
+                            </div>
+                            <h4 class="text-center mb-3">Our Vision</h4>
+                            <p>We envision a world where every teacher has the tools and time to nurture their students' potential, and where every student receives the individualized attention they need to succeed. By 2030, we aim to support 1 million educators worldwide, directly contributing to UN Sustainable Development Goal 4: Quality Education.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Problem We Solve -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 order-lg-2 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-4">The Problem We Solve</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h5>Teacher Overwork</h5>
+                            <p>Teachers spend 7-8 hours per week grading assignments, with English teachers spending up to 15 hours - time that could be spent on lesson planning and student interaction.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>Generic Feedback</h5>
+                            <p>Large class sizes force teachers to provide generic comments that don't address individual student needs, missing opportunities for meaningful learning growth.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5>Resource Inequality</h5>
+                            <p>Under-resourced schools struggle most, with teacher-student ratios as high as 1:50 in some regions, making personalized attention nearly impossible.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 order-lg-1">
+                    <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Stressed teacher" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Solution -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Our AI-Powered Solution</h2>
+                <p class="lead">How EduFeedback transforms the teaching experience</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 bg-transparent border-light">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle bg-white text-primary mb-4 mx-auto">
+                                <i class="fas fa-robot fa-2x"></i>
+                            </div>
+                            <h4>Advanced AI Grading</h4>
+                            <p>Our proprietary algorithms grade assignments with human-level accuracy across multiple subjects and formats, from math problems to essay questions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 bg-transparent border-light">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle bg-white text-primary mb-4 mx-auto">
+                                <i class="fas fa-comment-dots fa-2x"></i>
+                            </div>
+                            <h4>Personalized Feedback Engine</h4>
+                            <p>The system generates customized feedback for each student, identifying specific strengths and areas for improvement based on their work.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 bg-transparent border-light">
+                        <div class="card-body text-center p-4">
+                            <div class="icon-circle bg-white text-primary mb-4 mx-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                            <h4>Teacher Oversight Tools</h4>
+                            <p>Educators can review, edit, and supplement all AI-generated feedback, maintaining their professional judgment while saving time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Our Impact</h2>
+                <p class="lead">Transforming classrooms around the world</p>
+            </div>
+            <div class="row text-center g-4">
+                <div class="col-md-3">
+                    <div class="impact-number">72%</div>
+                    <p>Reduction in grading time reported by teachers</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="impact-number">2.5M+</div>
+                    <p>Assignments graded by our system</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="impact-number">89%</div>
+                    <p>Of teachers report improved student engagement</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="impact-number">15K+</div>
+                    <p>Educators using our platform worldwide</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Our Team</h2>
+                <p class="lead">Educators, technologists, and innovators united by a common purpose</p>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member text-center">
+                        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Team member" class="rounded-circle mb-3">
+                        <h5>Dr. Sarah Chen</h5>
+                        <p class="text-muted">Co-Founder & CEO</p>
+                        <p>Former high school teacher with 12 years classroom experience</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member text-center">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team member" class="rounded-circle mb-3">
+                        <h5>James Rodriguez</h5>
+                        <p class="text-muted">CTO</p>
+                        <p>AI specialist with focus on natural language processing</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member text-center">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Team member" class="rounded-circle mb-3">
+                        <h5>Priya Patel</h5>
+                        <p class="text-muted">Head of Education</p>
+                        <p>Curriculum developer and former school administrator</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member text-center">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Team member" class="rounded-circle mb-3">
+                        <h5>David Kim</h5>
+                        <p class="text-muted">Product Lead</p>
+                        <p>EdTech entrepreneur with 3 successful startups</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a href="/contact" class="btn btn-outline-primary">Join Our Team</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SDG Commitment -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/07/E_SDG-goals_icons-individual-rgb-04.png" alt="SDG 4" class="img-fluid" style="max-width: 300px;">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="fw-bold mb-4">Our Commitment to SDG 4</h2>
+                    <p>EduFeedback is proud to align with United Nations Sustainable Development Goal 4: Quality Education. We believe that by supporting teachers and improving feedback quality, we can help:</p>
+                    <ul class="fa-ul">
+                        <li><span class="fa-li"><i class="fas fa-check text-primary"></i></span>Ensure inclusive and equitable quality education</li>
+                        <li><span class="fa-li"><i class="fas fa-check text-primary"></i></span>Promote lifelong learning opportunities for all</li>
+                        <li><span class="fa-li"><i class="fas fa-check text-primary"></i></span>Support teachers in developing countries through our nonprofit program</li>
+                        <li><span class="fa-li"><i class="fas fa-check text-primary"></i></span>Bridge the education technology gap in under-resourced schools</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary mt-3">Learn About Our SDG Initiatives</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-5 bg-dark text-white">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-4">Ready to Join the Education Revolution?</h2>
+            <p class="lead mb-5">Discover how EduFeedback can transform your school or classroom.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="/register" class="btn btn-primary btn-lg">Register Your School</a>
+                <a href="/contact" class="btn btn-outline-light btn-lg">Contact Our Team</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5>EduFeedback</h5>
+                    <p>AI-powered teacher assistant that automates grading and provides personalized feedback to support educators and enhance student learning.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/grading">Auto Grading</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Features</h5>
+                    <ul>
+                        <li><a href="#">Assignment Grading</a></li>
+                        <li><a href="#">Student Feedback</a></li>
+                        <li><a href="#">Analytics Dashboard</a></li>
+                        <li><a href="#">Rubric Builder</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Educator Newsletter</h5>
+                    <p>Subscribe for teaching tips, product updates, and education research.</p>
+                    <form class="mt-3">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your Email">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright text-center">
+                <p>&copy; 2025 EduFeedback. All Rights Reserved. Supporting Quality Education Worldwide.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                document.querySelector('.navbar').classList.add('scrolled');
+            } else {
+                document.querySelector('.navbar').classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact EduFeedback - AI Teacher Assistant</title>
+    <link rel="icon" href="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" type="image/icon type">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #2e59a4;
+            --accent-color: #1cc88a;
+            --dark-color: #5a5c69;
+            --light-color: #f8f9fc;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-color);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            transition: all 0.3s;
+            padding: 15px 0;
+        }
+        
+        .navbar.scrolled {
+            padding: 10px 0;
+            background-color: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Hero Section */
+        .contact-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 150px 0 100px;
+        }
+        
+        /* Contact Cards */
+        .contact-card {
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .contact-card i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        /* Form Styles */
+        .contact-form .form-control {
+            border-radius: 5px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        
+        .contact-form textarea.form-control {
+            min-height: 150px;
+        }
+        
+        /* Map */
+        .map-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* FAQ */
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(78, 115, 223, 0.1);
+            color: var(--primary-color);
+        }
+    </style>
+        <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/"><span>Edu</span>Feedback</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/EduAI">EduAI</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/MockInterview">AI Teacher Convo</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="/login">Teacher Login</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary ms-2" href="/register">Register School</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4">Contact EduFeedback</h1>
+            <p class="lead">We're here to help you transform your teaching experience with AI</p>
+        </div>
+    </section>
+
+    <!-- Contact Options -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">How Would You Like to Connect?</h2>
+                <p class="lead">Choose the most convenient way to reach our education support team</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card contact-card shadow-sm text-center p-4">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email Support</h4>
+                        <p>For general inquiries and support questions</p>
+                        <a href="mailto:support@edufeedback.com" class="btn btn-outline-primary">support@edufeedback.com</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card contact-card shadow-sm text-center p-4">
+                        <i class="fas fa-phone-alt"></i>
+                        <h4>School Partnerships</h4>
+                        <p>For schools and districts interested in implementation</p>
+                        <a href="tel:+18005551234" class="btn btn-outline-primary">+1 (800) 555-1234</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card contact-card shadow-sm text-center p-4">
+                        <i class="fas fa-comments"></i>
+                        <h4>Live Chat</h4>
+                        <p>Available weekdays 8am-5pm in your timezone</p>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chatModal">Start Chat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-4">Send Us a Message</h2>
+                    <p class="lead">Have questions about how EduFeedback can work for your school?</p>
+                    <p>Our team of former educators will respond within 24 hours. Please include:</p>
+                    <ul>
+                        <li>Your school/district name</li>
+                        <li>Grade levels you teach</li>
+                        <li>Specific challenges you're facing</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <form class="contact-form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" placeholder="School/District Name">
+                        <select class="form-control">
+                            <option value="">I'm a...</option>
+                            <option>Teacher</option>
+                            <option>School Administrator</option>
+                            <option>District Administrator</option>
+                            <option>Parent</option>
+                            <option>Student</option>
+                            <option>Other</option>
+                        </select>
+                        <textarea class="form-control" placeholder="How can we help you?"></textarea>
+                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- School Demo -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold mb-4">Schedule a School Demo</h2>
+                    <p class="lead mb-5">See how EduFeedback works with a personalized 30-minute demonstration for your faculty</p>
+                    <a href="#" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#demoModal">Book a Demo</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Frequently Asked Questions</h2>
+                <p class="lead">Quick answers to common questions from educators</p>
+            </div>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item mb-3 border-0 shadow-sm">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            How does the AI ensure grading accuracy?
+                        </button>
+                    </h3>
+                    <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Our AI is trained on millions of teacher-graded assignments and continuously improves through educator feedback. Teachers can always review and adjust grades before finalizing.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item mb-3 border-0 shadow-sm">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            What subjects and grade levels do you support?
+                        </button>
+                    </h3>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            We currently support English, Math, Science, and Social Studies for grades 3-12, with more subjects coming soon. Our system adapts to different grade-level expectations.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item mb-3 border-0 shadow-sm">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            How do you protect student data privacy?
+                        </button>
+                    </h3>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            We comply with FERPA, COPPA, and GDPR regulations. All data is encrypted, and we never sell or share student information. Schools maintain full control over their data.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item mb-3 border-0 shadow-sm">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            Do you offer discounts for Title I schools?
+                        </button>
+                    </h3>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            Yes! Through our Education Equity Program, Title I schools receive a 40% discount. We also offer special grants for schools in underserved communities.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5>EduFeedback</h5>
+                    <p>AI-powered teacher assistant that automates grading and provides personalized feedback to support educators and enhance student learning.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/grading">Auto Grading</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Features</h5>
+                    <ul>
+                        <li><a href="#">Assignment Grading</a></li>
+                        <li><a href="#">Student Feedback</a></li>
+                        <li><a href="#">Analytics Dashboard</a></li>
+                        <li><a href="#">Rubric Builder</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Educator Newsletter</h5>
+                    <p>Subscribe for teaching tips, product updates, and education research.</p>
+                    <form class="mt-3">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Your Email">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="copyright text-center">
+                <p>&copy; 2025 EduFeedback. All Rights Reserved. Supporting Quality Education Worldwide.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Modal -->
+    <div class="modal fade" id="chatModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Live Chat Support</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="chat-container p-3" style="height: 300px; overflow-y: auto; background-color: #f8f9fa; border-radius: 5px;">
+                        <div class="text-center text-muted my-5">
+                            <i class="fas fa-comment-dots fa-3x mb-3"></i>
+                            <p>Our education support team will be with you shortly</p>
+                        </div>
+                    </div>
+                    <div class="input-group mt-3">
+                        <input type="text" class="form-control" placeholder="Type your message...">
+                        <button class="btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Modal -->
+    <div class="modal fade" id="demoModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Schedule a School Demo</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">School/District Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Your Role</label>
+                            <select class="form-control" required>
+                                <option value="">Select...</option>
+                                <option>Teacher</option>
+                                <option>Department Head</option>
+                                <option>School Administrator</option>
+                                <option>District Administrator</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Preferred Date/Time</label>
+                            <input type="datetime-local" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Specific Areas of Interest</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Request Demo</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                document.querySelector('.navbar').classList.add('scrolled');
+            } else {
+                document.querySelector('.navbar').classList.remove('scrolled');
+            }
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! Our education team will respond within 24 hours.');
+            this.reset();
+        });
+    </script>
+</body>
+
+</html>

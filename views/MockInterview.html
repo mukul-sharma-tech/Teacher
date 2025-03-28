@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interview Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #6b73ff, #a0c4ff);
+            min-height: 100vh;
+        }
+
+        .setup-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 5vh;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .video-container {
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid #e0e0e0;
+        }
+
+        #textOutput {
+            min-height: 150px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            font-size: 1.1rem;
+        }
+
+        .btn-custom-primary {
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        #interviewInterface {
+            display: none;
+        }
+
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+        }
+
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body class="py-4">
+    <div id="setupPage" class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 setup-container">
+                <h2 class="text-center mb-4 fw-bold text-primary">Oral Assess Setup</h2>
+
+                <div class="mb-4">
+                    <label class="form-label">Select Subject</label>
+                    <select class="form-select" id="interviewType">
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Science">Science</option>
+                        <option value="SST">SST</option>
+                        <option value="Hindi">Hindi</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Upload Questions PDF</label>
+                    <input type="file" class="form-control" id="pdfUpload" accept=".pdf">
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button class="btn btn-custom-primary btn-lg" id="startInterview">
+                        <i class="fas fa-play-circle me-2"></i>Start Oral Test
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="interviewInterface" class="container-fluid">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card-section p-4">
+                    <h2 class="text-center mb-4 fw-bold text-primary">
+                        <i class="fas fa-user-tie me-2"></i>Student
+                    </h2>
+
+                    <div class="d-flex justify-content-center gap-3 mb-4">
+                        <button id="startBtn" class="btn btn-custom-primary">
+                            <i class="fas fa-microphone me-2"></i>Start Session
+                        </button>
+                    </div>
+
+                    <div id="textOutput" class="p-3 mb-4"></div>
+
+                    <div class="video-container mb-4">
+                        <video id="videoElement" style="height: 400px; width: 100%;" autoplay muted></video>
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <button id="micToggle" class="btn btn-outline-primary">
+                            <i class="fas fa-microphone me-2"></i>Mic On
+                        </button>
+                        <button id="videoToggle" class="btn btn-outline-success">
+                            <i class="fas fa-video me-2"></i>Video On
+                        </button>
+                        <button id="submitBtn" class="btn btn-success">
+                            <i class="fas fa-paper-plane me-2"></i>Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-section p-4">
+                    <h2 class="text-center mb-4 fw-bold text-primary">
+                        <i class="fas fa-users me-2"></i>Teacher
+                    </h2>
+                    <h5 class="text-center mb-3">Subject:
+                        <span id="selectedType" class="badge bg-primary"></span>
+                    </h5>
+
+                    <div class="text-center mb-4">
+                        <img src="https://th.bing.com/th/id/OIP.71KkdL3oCWG0aE5AJ-b_GQHaE7?w=2124&h=1413&rs=1&pid=ImgDetMain"
+                            style="height: 400px; width: 100%;" class="rounded-3" alt="HR Image">
+                    </div>
+
+                    <div class="text-center">
+                        <button id="askQuestionBtn" class="btn btn-custom-primary">
+                            <i class="fas fa-bullhorn me-2"></i>Ask Question
+                        </button>
+                    </div>
+
+                    <!-- Add End Interview Button -->
+                    <div class="text-center mt-4">
+                        <button id="endInterviewBtn" class="btn btn-danger">
+                            <i class="fas fa-stop-circle me-2"></i>End Test
+                        </button>
+                        <button class="btn-primary">
+                            <a href="/">Return to Home</a>
+                        </button>
+                    </div>
+                    <button id="downloadPDF" class="btn btn-outline-success">Download Interview Q&A as PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const setupPage = document.getElementById('setupPage');
+            const interviewInterface = document.getElementById('interviewInterface');
+            const startInterviewBtn = document.getElementById('startInterview');
+            const interviewType = document.getElementById('interviewType');
+            const pdfUpload = document.getElementById('pdfUpload');
+            const selectedType = document.getElementById('selectedType');
+
+            // Interview functionality elements
+            const startBtn = document.getElementById('startBtn');
+            const textOutput = document.getElementById('textOutput');
+            const micToggle = document.getElementById('micToggle');
+            const videoToggle = document.getElementById('videoToggle');
+            const submitBtn = document.getElementById('submitBtn');
+            const videoElement = document.getElementById('videoElement');
+            const askQuestionBtn = document.getElementById('askQuestionBtn');
+            const endInterviewBtn = document.getElementById('endInterviewBtn');
+
+            let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            let videoStream = null;
+            let questions = [];
+            let currentQuestionIndex = 0;
+            let fullTranscript = "";
+            let lastTranscript = "";
+            let currentQuestion = "";
+            let currentInterviewType = "";
+            let qaPairs = [];
+
+            // Setup page handler
+            startInterviewBtn.addEventListener('click', async () => {
+                if (!pdfUpload.files[0]) {
+                    alert('Please upload a PDF file');
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('pdf', pdfUpload.files[0]);
+
+                try {
+                    const response = await fetch('http://localhost:5000/api/upload-pdf', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Server error: ${response.status} - ${errorText}`);
+                    }
+
+                    const data = await response.json();
+
+                    questions = data.questions;
+                    currentInterviewType = interviewType.value;
+                    selectedType.textContent = interviewType.options[interviewType.selectedIndex].text;
+
+                    setupPage.style.display = 'none';
+                    interviewInterface.style.display = 'block';
+                } catch (error) {
+                    console.error('Upload error:', error);
+                    alert(`Error: ${error.message}`);
+                }
+            });
+
+            // Speech recognition setup
+            recognition.lang = "en-US";
+            recognition.continuous = true;
+            recognition.interimResults = false;
+
+            // Mic toggle handler
+            micToggle.addEventListener("click", () => {
+                if (micToggle.textContent === "Mic On") {
+                    micToggle.textContent = "Mic Off";
+                    startBtn.textContent = "Now Listening";
+                    startBtn.classList.add("blink");
+                    recognition.start();
+                } else {
+                    recognition.stop();
+                    micToggle.textContent = "Mic On";
+                    startBtn.textContent = "Start Speaking";
+                    startBtn.classList.remove("blink");
+                }
+            });
+
+            recognition.onresult = (event) => {
+                let transcript = "";
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    transcript += event.results[i][0].transcript;
+                }
+
+                if (transcript !== lastTranscript) {
+                    fullTranscript += transcript + " ";
+                    textOutput.textContent = fullTranscript;
+                    lastTranscript = transcript;
+                }
+            };
+
+            // Video toggle handler
+            videoToggle.addEventListener("click", async () => {
+                if (videoToggle.textContent === "Video On") {
+                    videoToggle.textContent = "Video Off";
+                    try {
+                        videoStream = await navigator.mediaDevices.getUserMedia({
+                            video: { width: 1280, height: 720 }
+                        });
+                        videoElement.srcObject = videoStream;
+                    } catch (err) {
+                        alert("Camera access error: " + err.message);
+                    }
+                } else {
+                    videoToggle.textContent = "Video On";
+                    if (videoStream) {
+                        videoStream.getTracks().forEach(track => track.stop());
+                        videoElement.srcObject = null;
+                    }
+                }
+            });
+
+            // Question handler
+            askQuestionBtn.addEventListener("click", () => {
+                if (questions.length > 0 && currentQuestionIndex < questions.length) {
+                    currentQuestion = questions[currentQuestionIndex++];
+                    const utterance = new SpeechSynthesisUtterance(currentQuestion);
+                    utterance.rate = 1.0;
+                    speechSynthesis.speak(utterance);
+                } else {
+                    alert("No more questions in the list");
+                }
+            });
+
+            // Submit handler
+            submitBtn.addEventListener("click", () => {
+                if (fullTranscript && currentQuestion) {
+                    qaPairs.push({
+                        hrQuestion: currentQuestion,
+                        candidateAnswer: fullTranscript
+                    });
+
+                    fullTranscript = "";
+                    textOutput.textContent = "";
+                    currentQuestion = "";
+                    alert("Response recorded. Continue with next question.");
+                } else {
+                    alert("Please complete answering the current question first");
+                }
+            });
+
+            // End Interview handler
+            endInterviewBtn.addEventListener("click", async () => {
+                if (qaPairs.length === 0) {
+                    alert("No interview data to save!");
+                    return;
+                }
+
+                try {
+                    const response = await fetch("http://localhost:5000/api/save-interview", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            interviewField: currentInterviewType,
+                            qaPairs: qaPairs
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Save failed: ${await response.text()}`);
+                    }
+
+                    // Speak farewell message
+                    const utterance = new SpeechSynthesisUtterance(
+                        "Thank you, you can go now. Your interview has been submitted successfully."
+                    );
+                    speechSynthesis.speak(utterance);
+
+                    // Offer new interview
+                    if (confirm("Interview saved! Start new session?")) {
+                        window.location.reload();
+                    }
+
+                } catch (error) {
+                    console.error('Save error:', error);
+                    alert(`Save error: ${error.message}`);
+                }
+            });
+        });
+
+        document.getElementById("downloadPDF").addEventListener("click", () => {
+            window.location.href = "http://localhost:3000/download-pdf";
+        });
+    </script>
+</body>
+
+</html>

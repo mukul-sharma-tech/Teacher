@@ -1,0 +1,90 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Content</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Upload Content</h1>
+    
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="textContent">Or paste your text here:</label>
+        <textarea id="textContent" name="textContent" rows="10"></textarea>
+      </div>
+      
+      <div class="form-group"> -->
+        <!-- <label for="file">Upload a file (PDF or TXT):</label> -->
+        <!-- <input type="file" id="file" name="file" accept=".pdf,.txt"> -->
+      <!-- </div>
+      
+      <button type="submit" class="btn">Generate Quiz</button>
+    </form>
+  </div>
+</body>
+</html> -->
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Content</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container" style="transform: rotateY(5deg);">
+    <h1>Upload Content</h1>
+    
+    <% if (typeof error !== 'undefined') { %>
+      <div class="error-message" style="background: #ffebee; color: #d63031; padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem;">
+        <p><%= error %></p>
+      </div>
+    <% } %>
+    
+    <form action="/upload" method="POST" enctype="multipart/form-data" style="transform-style: preserve-3d;">
+      <div class="form-group">
+        <label for="textContent">Paste your text here:</label>
+        <textarea id="textContent" name="textContent" rows="10" required 
+                  style="min-height: 150px; resize: vertical;"><%= typeof textContent !== 'undefined' ? textContent : '' %></textarea>
+      </div>
+      
+      
+      <div style="text-align: center; margin-top: 2rem;">
+        <button type="submit" class="btn">Generate Quiz</button>
+        <a href="/" class="btn secondary">Back to Home</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('file').addEventListener('change', function(e) {
+      const fileName = e.target.files[0] ? e.target.files[0].name : 'No file chosen';
+      document.getElementById('file-name').textContent = fileName;
+    });
+  </script>
+</body>
+</html>
+
+
+<!-- <div class="form-group">
+        <label>Or upload a file:</label>
+        <div class="file-upload" style="position: relative; overflow: hidden; display: inline-block;">
+          <input type="file" id="file" name="file" accept=".pdf,.txt" 
+                 style="position: absolute; left: 0; top: 0; opacity: 0; width: 0.1px; height: 0.1px;">
+          <label for="file" class="btn secondary" style="display: inline-block; cursor: pointer;">
+            Choose File
+          </label>
+          <span id="file-name" style="margin-left: 10px;">No file chosen</span>
+        </div>
+        <p class="hint" style="font-size: 0.8em; color: #666; margin-top: 5px;">Supported: PDF or Text (max 5MB)</p>
+      </div> -->

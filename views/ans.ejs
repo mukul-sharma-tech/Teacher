@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Answer Evaluator</title>
+    <link rel="stylesheet" href="/css/ans.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Answer Evaluation System</h1>
+        <p>Upload your question-answer PDF for AI evaluation</p>
+        
+        <form action="/evaluate" method="POST" enctype="multipart/form-data">        
+            <div class="upload-area" id="uploadArea">
+                <input type="file" id="pdfInput" name="answerPdf" accept=".pdf" required>
+                <label for="pdfInput">
+                    <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="Upload PDF">
+                    <span>Choose your Q&A PDF file</span>
+                    <p>or drag and drop file here</p>
+                </label>
+            </div>
+            
+            <button type="submit">Evaluate Answers</button>
+        </form>
+        
+        <div class="instructions">
+            <h2>How it works:</h2>
+            <ol>
+                <li>Prepare a PDF with your questions and answers</li>
+                <li>Upload the PDF file</li>
+                <li>Our AI will analyze and evaluate your answers</li>
+                <li>Receive detailed feedback and scores</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Drag and drop functionality
+        const uploadArea = document.getElementById('uploadArea');
+        const pdfInput = document.getElementById('pdfInput');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files[0].type === 'application/pdf') {
+                pdfInput.files = e.dataTransfer.files;
+                document.querySelector('#uploadArea label span').textContent = e.dataTransfer.files[0].name;
+            }
+        });
+        
+        pdfInput.addEventListener('change', () => {
+            if (pdfInput.files.length > 0) {
+                document.querySelector('#uploadArea label span').textContent = pdfInput.files[0].name;
+            }
+        });
+    </script>
+</body>
+</html>

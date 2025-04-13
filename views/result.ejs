@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation Results</title>
+    <link rel="stylesheet" href="/css/ans.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Answer Evaluation Results</h1>
+
+        <div class="result-section">
+            <h2>Extracted Content:</h2>
+            <div class="content-box">
+                <pre><%= originalText %></pre>
+            </div>
+        </div>
+
+        <div class="result-section">
+            <h2>AI Evaluation:</h2>
+            <div class="evaluation-box">
+                <%- evaluation.replace(/\n/g, '<br>' ) %>
+            </div>
+        </div>
+
+        <a href="/ansCheck" class="back-button">Evaluate Another PDF</a>
+        <% if (downloadAvailable) { %>
+            <div class="download-section">
+                <h3>Download Your Report</h3>
+                <form action="/download-report" method="POST">
+                    <input type="hidden" name="date" value="<%= new Date().toISOString() %>">
+
+                    <textarea name="originalText" style="display:none;"><%= originalText %></textarea>
+                    <textarea name="evaluation" style="display:none;"><%= evaluation %></textarea>
+
+                    <button type="submit" class="download-button">
+                        <i class="fas fa-download"></i> Download Full Report (TXT)
+                    </button>
+                </form>
+            </div>
+            <% } %>
+
+    </div>
+</body>
+
+</html>

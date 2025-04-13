@@ -15,6 +15,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
 
 <link rel="stylesheet" href="style.css">
+<style>
+    .chat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Vertically center */
+  padding: 20px;
+  margin-top: 50px;
+}
+
+.chat-container {
+  width: 100%;
+  max-width: 600px; /* Controls width on large screens */
+}
+
+</style>
 
 <style>
     
@@ -24,28 +40,42 @@
 
 <body data-bs-spy="scroll" data-bs-target=".navbar">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#"><span>Edu</span>Feedback</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/EduAI">EduAI</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/MockInterview">AI Teacher Convo</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="/login">Teacher Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary ms-2" href="/register">Register School</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#"><span>Edu</span>Feedback</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/contact">Contact</a></li>
 
-    <div class="chat" style="position: relative; left : 460px">
+                <div class="dropdown" style="position: relative; top: 4px">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false" style="background-color: transparent;">
+                        Explore
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: rgb(69, 25, 135);">
+                        <li class="nav-item"><a class="nav-link" href="/EduAI">EduAI</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/ansCheck">AnsCheck</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/quiz">QuizGenerate</a></li>
+                    </ul>
+                </div>
+                <li class="nav-item"><a class="nav-link" href="/MockInterview">AI Teacher Convo</a></li>
+                <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="/login">Teacher Login</a>
+                </li>
+                <li class="nav-item"><a class="nav-link btn btn-primary ms-2" href="/register">Register School</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    <div class="chat" >
         <div class="chat-container">
             <h2>🤖 EduAI</h2>
 
@@ -362,7 +392,7 @@
                 });
             });
 
-            doc.save('Farmer.pdf');
+            doc.save('Response.pdf');
         }
 
 

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= quiz.title %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1><%= quiz.title %></h1>
+    
+    <form id="quizForm">
+      <% quiz.questions.forEach((q, index) => { %>
+        <div class="question">
+          <h3>Question <%= index + 1 %>: <%= q.question %></h3>
+          <div class="options">
+            <% q.options.forEach((option, optIndex) => { %>
+              <div class="option">
+                <input type="radio" 
+                       id="q<%= index %>-opt<%= optIndex %>" 
+                       name="q<%= index %>" 
+                       value="<%= option %>">
+                <label for="q<%= index %>-opt<%= optIndex %>"><%= option %></label>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% }); %>
+      
+      <button type="button" class="btn" onclick="checkAnswers()">Submit Quiz</button>
+      <a href="/" class="btn secondary">Back to Home</a>
+      <a href="/upload" class="btn secondary">New Quiz</a>
+
+    </form>
+    
+    <div id="results" style="display: none;">
+      <h2>Quiz Results</h2>
+      <p id="score"></p>
+      <div id="feedback"></div>
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+  <script>
+    const correctAnswers = {
+      <% quiz.questions.forEach((q, index) => { %>
+        <%= index %>: "<%= q.answer %>"<%= index < quiz.questions.length - 1 ? ',' : '' %>
+      <% }); %>
+    };
+  </script>
+</body>
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= quiz.title %>
+  </title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container" style="transform-style: preserve-3d;">
+    <h1>
+      <%= quiz.title %>
+    </h1>
+
+    <form id="quizForm" style="transform-style: preserve-3d;">
+      <% quiz.questions.forEach((q, index)=> { %>
+        <div class="question floating" style="animation-delay: <%= index * 0.1 %>s;">
+          <h3>Question <%= index + 1 %>: <%= q.question %>
+          </h3>
+          <div class="options" >
+            <% q.options.forEach((option, optIndex)=> { %>
+              <div class="option" onclick="selectOption(this)">
+                <input type="radio" id="q<%= index %>-opt<%= optIndex %>" name="q<%= index %>"
+                  value="<%= option.replace(/" /g, '&quot;' ) %>"
+                required>
+                <label for="q<%= index %>-opt<%= optIndex %>">
+                  <%= option %>
+                </label>
+              </div>
+              <% }); %>
+          </div>
+        </div>
+        <% }); %>
+
+          <div style="text-align: center; margin-top: 2rem;">
+            <button type="button" class="btn" onclick="checkAnswers()">Submit Quiz</button>
+            <a href="/upload" class="btn secondary">New Quiz</a>
+          </div>
+    </form>
+
+    <div id="results" style="display: none; transform: rotateY(15deg); transition: all 0.5s ease;">
+      <h2>Quiz Results</h2>
+      <p id="score" style="font-size: 1.2em; margin: 1rem 0;"></p>
+      <div id="feedback"></div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="/upload" class="btn">Try Another Quiz</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const correctAnswers = <% - correctAnswers %>;
+
+    // function selectOption(element) {
+    //   const radio = element.querySelector('input[type="radio"]');
+    //   radio.checked = true;
+
+    //   // Remove all selected styles first
+    //   document.querySelectorAll('.option').forEach(opt => {
+    //     opt.style.background = 'rgba(162, 155, 254, 0.1)';
+    //   });
+
+    //   // Add selected style
+    //   element.style.background = 'rgba(108, 92, 231, 0.2)';
+    //   element.style.transform = 'translateX(10px) translateZ(10px)';
+    // }
+
+    function selectOption(element) {
+      const radio = element.querySelector('input[type="radio"]');
+      radio.checked = true;
+
+      // Remove all selected styles first
+      document.querySelectorAll('.option').forEach(opt => {
+        width: '20px';
+        height: '20px';
+        opt.style.background = 'rgba(162, 155, 254, 0.1)';
+        opt.style.transform = 'none'; // Reset any previous transform
+      });
+
+      // Add selected style without transforming
+      element.style.background = 'rgba(108, 92, 231, 0.2)';
+      element.style.transition = 'background 0.3s ease'; // Smooth transition for background
+    }
+
+
+    function checkAnswers() {
+      let score = 0;
+      const feedback = [];
+
+      for (const [questionIndex, correctAnswer] of Object.entries(correctAnswers)) {
+        const selectedOption = document.querySelector(`input[name="q${questionIndex}"]:checked`);
+        const questionElement = document.querySelector(`input[name="q${questionIndex}"]`).closest('.question');
+
+        if (selectedOption) {
+          if (selectedOption.value === correctAnswer) {
+            score++;
+            feedback.push(`<div class="feedback-item" style="margin: 1rem 0; padding: 1rem; background: rgba(0, 184, 148, 0.1); border-radius: 10px;">
+              <span style="color: #00b894; font-weight: bold;">✓ Correct!</span> Question ${parseInt(questionIndex) + 1}
+            </div>`);
+            questionElement.style.boxShadow = '0 0 0 3px rgba(0, 184, 148, 0.3)';
+          } else {
+            feedback.push(`<div class="feedback-item" style="margin: 1rem 0; padding: 1rem; background: rgba(214, 48, 49, 0.1); border-radius: 10px;">
+              <span style="color: #d63031; font-weight: bold;">✗ Incorrect.</span> Question ${parseInt(questionIndex) + 1}. 
+              Correct answer: <strong>${correctAnswer}</strong>
+            </div>`);
+            questionElement.style.boxShadow = '0 0 0 3px rgba(214, 48, 49, 0.3)';
+          }
+        } else {
+          feedback.push(`<div class="feedback-item" style="margin: 1rem 0; padding: 1rem; background: rgba(253, 121, 168, 0.1); border-radius: 10px;">
+              <span style="color: #fd79a8; font-weight: bold;">ⓘ Unanswered.</span> Question ${parseInt(questionIndex) + 1}. 
+              Correct answer: <strong>${correctAnswer}</strong>
+            </div>`);
+          questionElement.style.boxShadow = '0 0 0 3px rgba(253, 121, 168, 0.3)';
+        }
+      }
+
+      // Display results
+      document.getElementById('score').innerHTML =
+        `You scored <strong>${score}/${Object.keys(correctAnswers).length}</strong> ` +
+        `<span style="font-size: 0.8em;">(${Math.round(score / Object.keys(correctAnswers).length * 100)}%)</span>`;
+
+      document.getElementById('feedback').innerHTML = feedback.join('');
+
+      // Show results with animation
+      document.getElementById('quizForm').style.display = 'none';
+      document.getElementById('results').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('results').style.transform = 'rotateY(0)';
+      }, 100);
+
+      // Scroll to top smoothly
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+</body>
+
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= quiz.title %>
+  </title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .option {
+      padding: 1rem;
+      border-radius: 8px;
+      background: rgba(162, 155, 254, 0.1);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 0.5rem;
+    }
+    
+    .option:hover {
+      background: rgba(108, 92, 231, 0.2);
+    }
+    
+    .option.selected {
+      background: rgba(108, 92, 231, 0.3);
+      border-left: 4px solid #6c5ce7;
+    }
+    
+    /* .option input[type="radio"] {
+      display: none;
+    } */
+    
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .feedback-item {
+      margin: 1rem 0;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>
+      <%= quiz.title %>
+    </h1>
+
+    <form id="quizForm">
+      <% quiz.questions.forEach((q, index)=> { %>
+        <div class="question floating" style="animation-delay: <%= index * 0.1 %>s;">
+          <h3>Question <%= index + 1 %>: <%= q.question %></h3>
+          <div class="options">
+            <% q.options.forEach((option, optIndex)=> { %>
+              <div class="option" onclick="selectOption(this)">
+                <input type="radio" id="q<%= index %>-opt<%= optIndex %>" name="q<%= index %>"
+                  value="<%= option.replace(/" /g, '&quot;' ) %>" required>
+                <label for="q<%= index %>-opt<%= optIndex %>">
+                  <%= option %>
+                </label>
+              </div>
+              <% }); %>
+          </div>
+        </div>
+        <% }); %>
+
+      <div class="form-actions">
+        <button type="button" class="btn" onclick="checkAnswers()">Submit Quiz</button>
+        <a href="/upload" class="btn secondary">New Quiz</a>
+      </div>
+    </form>
+
+    <div id="results" style="display: none;">
+      <h2>Quiz Results</h2>
+      <p id="score"></p>
+      <div id="feedback"></div>
+      <div class="form-actions">
+        <a href="/upload" class="btn">Try Another Quiz</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const correctAnswers = <% - correctAnswers %>;
+
+    function selectOption(element) {
+      const radio = element.querySelector('input[type="radio"]');
+      radio.checked = true;
+
+      // Remove selected class from all options in this question group
+      const questionGroup = element.closest('.question');
+      questionGroup.querySelectorAll('.option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      
+      // Add selected class to clicked option
+      element.classList.add('selected');
+    }
+
+    function checkAnswers() {
+      let score = 0;
+      const feedback = [];
+
+      for (const [questionIndex, correctAnswer] of Object.entries(correctAnswers)) {
+        const selectedOption = document.querySelector(`input[name="q${questionIndex}"]:checked`);
+        const questionElement = document.querySelector(`input[name="q${questionIndex}"]`).closest('.question');
+
+        if (selectedOption) {
+          if (selectedOption.value === correctAnswer) {
+            score++;
+            feedback.push(`<div class="feedback-item" style="background: rgba(0, 184, 148, 0.1);">
+              <span style="color: #00b894; font-weight: bold;">✓ Correct!</span> Question ${parseInt(questionIndex) + 1}
+            </div>`);
+            questionElement.style.boxShadow = '0 0 0 3px rgba(0, 184, 148, 0.3)';
+          } else {
+            feedback.push(`<div class="feedback-item" style="background: rgba(214, 48, 49, 0.1);">
+              <span style="color: #d63031; font-weight: bold;">✗ Incorrect.</span> Question ${parseInt(questionIndex) + 1}. 
+              Correct answer: <strong>${correctAnswer}</strong>
+            </div>`);
+            questionElement.style.boxShadow = '0 0 0 3px rgba(214, 48, 49, 0.3)';
+          }
+        } else {
+          feedback.push(`<div class="feedback-item" style="background: rgba(253, 121, 168, 0.1);">
+              <span style="color: #fd79a8; font-weight: bold;">ⓘ Unanswered.</span> Question ${parseInt(questionIndex) + 1}. 
+              Correct answer: <strong>${correctAnswer}</strong>
+            </div>`);
+          questionElement.style.boxShadow = '0 0 0 3px rgba(253, 121, 168, 0.3)';
+        }
+      }
+
+      // Display results
+      document.getElementById('score').innerHTML =
+        `You scored <strong>${score}/${Object.keys(correctAnswers).length}</strong> ` +
+        `<span style="font-size: 0.8em;">(${Math.round(score / Object.keys(correctAnswers).length * 100)}%)</span>`;
+
+      document.getElementById('feedback').innerHTML = feedback.join('');
+      document.getElementById('quizForm').style.display = 'none';
+      document.getElementById('results').style.display = 'block';
+
+      // Scroll to top smoothly
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  </script>
+</body>
+
+</html> -->

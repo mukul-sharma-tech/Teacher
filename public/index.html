@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizGen - AI-Powered Quiz Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fb;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .input-section, .output-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .input-methods {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-tab {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--light-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .input-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .input-content {
+            display: none;
+        }
+        
+        .input-content.active {
+            display: block;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            resize: vertical;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .file-upload i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+        
+        .quiz-options {
+            margin-top: 1.5rem;
+        }
+        
+        .option-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        select, input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        
+        .generate-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        
+        .generate-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-results {
+            margin-top: 1.5rem;
+        }
+        
+        .quiz-item {
+            background-color: var(--light-color);
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .question {
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .option {
+            background-color: white;
+            padding: 0.75rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .correct {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-color: var(--success-color);
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .export-btn {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .export-btn:hover {
+            background-color: #3e8e41;
+        }
+        
+        .copy-btn {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .copy-btn:hover {
+            background-color: #3aa8d5;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-methods {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>QuizGen</h1>
+            <p class="subtitle">AI-Powered Quiz Generator from Text & PDF</p>
+        </header>
+        
+        <div class="app-container">
+            <section class="input-section">
+                <h2 class="section-title"><i class="fas fa-cog"></i> Quiz Settings</h2>
+                
+                <div class="input-methods">
+                    <button class="input-tab active" data-tab="text">Text Input</button>
+                    <button class="input-tab" data-tab="file">File Upload</button>
+                </div>
+                
+                <div class="input-content active" id="text-input">
+                    <textarea id="text-content" placeholder="Paste your content here..."></textarea>
+                </div>
+                
+                <div class="input-content" id="file-input">
+                    <div class="file-upload" id="upload-area">
+                        <i class="fas fa-file-upload"></i>
+                        <p>Click to upload or drag and drop</p>
+                        <p>Supports PDF and text files</p>
+                        <p class="file-name" id="file-name">No file selected</p>
+                        <input type="file" id="file-input-field" accept=".pdf,.txt" style="display: none;">
+                    </div>
+                </div>
+                
+                <div class="quiz-options">
+                    <div class="option-group">
+                        <label for="quiz-type">Quiz Type</label>
+                        <select id="quiz-type">
+                            <option value="multiple-choice">Multiple Choice</option>
+                            <option value="true-false">True/False</option>
+                            <option value="short-answer">Short Answer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="question-count">Number of Questions</label>
+                        <input type="number" id="question-count" min="1" max="20" value="5">
+                    </div>
+                    
+                    <div class="option-group">
+                        <label for="difficulty">Difficulty Level</label>
+                        <select id="difficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="generate-btn" id="generate-btn">Generate Quiz</button>
+            </section>
+            
+            <section class="output-section">
+                <h2 class="section-title"><i class="fas fa-list-alt"></i> Generated Quiz</h2>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your quiz... This may take a moment.</p>
+                </div>
+                
+                <div class="quiz-results" id="quiz-results">
+                    <div class="empty-state">
+                        <p>Your generated quiz will appear here. Click "Generate Quiz" to get started.</p>
+                    </div>
+                </div>
+                
+                <div class="actions" id="actions" style="display: none;">
+                    <button class="action-btn export-btn" id="export-btn">
+                        <i class="fas fa-download"></i> Export Quiz
+                    </button>
+                    <button class="action-btn copy-btn" id="copy-btn">
+                        <i class="fas fa-copy"></i> Copy to Clipboard
+                    </button>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>QuizGen &copy; 2023 | AI-Powered Quiz Generation Tool</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const tabs = document.querySelectorAll('.input-tab');
+            const contents = document.querySelectorAll('.input-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.tab}-input`).classList.add('active');
+                });
+            });
+            
+            // File upload handling
+            const uploadArea = document.getElementById('upload-area');
+            const fileInput = document.getElementById('file-input-field');
+            const fileName = document.getElementById('file-name');
+            
+            uploadArea.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    fileName.textContent = fileInput.files[0].name;
+                } else {
+                    fileName.textContent = 'No file selected';
+                }
+            });
+            
+            // Drag and drop
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#4361ee';
+                uploadArea.style.backgroundColor = 'rgba(67, 97, 238, 0.1)';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#ddd';
+                uploadArea.style.backgroundColor = '';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#ddd';
+                uploadArea.style.backgroundColor = '';
+                
+                if (e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    fileName.textContent = fileInput.files[0].name;
+                }
+            });
+            
+            // Quiz generation
+            const generateBtn = document.getElementById('generate-btn');
+            const loading = document.getElementById('loading');
+            const quizResults = document.getElementById('quiz-results');
+            const actions = document.getElementById('actions');
+            
+            generateBtn.addEventListener('click', async () => {
+                const quizType = document.getElementById('quiz-type').value;
+                const questionCount = document.getElementById('question-count').value;
+                const difficulty = document.getElementById('difficulty').value;
+                
+                let content = '';
+                let file = null;
+                
+                if (document.querySelector('.input-tab.active').dataset.tab === 'text') {
+                    content = document.getElementById('text-content').value.trim();
+                    if (!content) {
+                        alert('Please enter some text to generate a quiz.');
+                        return;
+                    }
+                } else {
+                    if (fileInput.files.length === 0) {
+                        alert('Please upload a file to generate a quiz.');
+                        return;
+                    }
+                    file = fileInput.files[0];
+                }
+                
+                // Show loading state
+                loading.style.display = 'block';
+                quizResults.innerHTML = '';
+                actions.style.display = 'none';
+                
+                try {
+                    const formData = new FormData();
+                    if (file) {
+                        formData.append('file', file);
+                    } else {
+                        formData.append('content', content);
+                    }
+                    formData.append('quizType', quizType);
+                    formData.append('questionCount', questionCount);
+                    formData.append('difficulty', difficulty);
+                    
+                    const response = await fetch('/generate-quiz', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to generate quiz');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Display the quiz
+                    displayQuiz(data.quiz);
+                    actions.style.display = 'flex';
+                } catch (error) {
+                    console.error('Error:', error);
+                    quizResults.innerHTML = `
+                        <div class="error-state">
+                            <p>An error occurred while generating the quiz. Please try again.</p>
+                        </div>
+                    `;
+                } finally {
+                    loading.style.display = 'none';
+                }
+            });
+            
+            function displayQuiz(quiz) {
+                quizResults.innerHTML = '';
+                
+                if (!quiz || quiz.length === 0) {
+                    quizResults.innerHTML = `
+                        <div class="empty-state">
+                            <p>No questions were generated. Please try with different content or settings.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                quiz.forEach((question, index) => {
+                    const questionEl = document.createElement('div');
+                    questionEl.className = 'quiz-item';
+                    
+                    let optionsHtml = '';
+                    if (question.type === 'multiple-choice') {
+                        optionsHtml = `
+                            <div class="options">
+                                ${question.options.map(opt => `
+                                    <div class="option ${opt.isCorrect ? 'correct' : ''}">
+                                        ${opt.text}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    } else if (question.type === 'true-false') {
+                        optionsHtml = `
+                            <div class="options">
+                                <div class="option ${question.correctAnswer === 'True' ? 'correct' : ''}">
+                                    True
+                                </div>
+                                <div class="option ${question.correctAnswer === 'False' ? 'correct' : ''}">
+                                    False
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        optionsHtml = `
+                            <div class="options">
+                                <div class="option correct">
+                                    ${question.correctAnswer}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    questionEl.innerHTML = `
+                        <div class="question">${index + 1}. ${question.question}</div>
+                        ${optionsHtml}
+                    `;
+                    
+                    quizResults.appendChild(questionEl);
+                });
+            }
+            
+            // Export and copy buttons
+            document.getElementById('export-btn').addEventListener('click', () => {
+                // Implement export functionality
+                alert('Export functionality will be implemented here');
+            });
+            
+            document.getElementById('copy-btn').addEventListener('click', () => {
+                // Implement copy functionality
+                const quizText = Array.from(document.querySelectorAll('.quiz-item'))
+                    .map(item => item.textContent.trim())
+                    .join('\n\n');
+                
+                navigator.clipboard.writeText(quizText)
+                    .then(() => alert('Quiz copied to clipboard!'))
+                    .catch(err => alert('Failed to copy quiz: ' + err));
+            });
+        });
+    </script>
+</body>
+</html>

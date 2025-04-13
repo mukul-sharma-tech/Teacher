@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduFeedback - AI-Powered Teacher Assistant</title>
-    <link rel="icon" href="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" type="image/icon type">
+    <link rel="icon"
+        href="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        type="image/icon type">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -20,40 +22,40 @@
             --dark-color: #5a5c69;
             --light-color: #f8f9fc;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             color: var(--dark-color);
             overflow-x: hidden;
         }
-        
+
         .navbar {
             background-color: var(--primary-color);
             transition: all 0.3s;
             padding: 15px 0;
         }
-        
+
         .navbar.scrolled {
             padding: 10px 0;
             background-color: var(--secondary-color);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
         }
-        
+
         .navbar-brand span {
             color: var(--accent-color);
         }
-        
+
         .nav-link {
             font-weight: 500;
             margin: 0 10px;
             position: relative;
         }
-        
+
         .nav-link:after {
             content: '';
             position: absolute;
@@ -64,27 +66,27 @@
             left: 0;
             transition: width 0.3s;
         }
-        
+
         .nav-link:hover:after {
             width: 100%;
         }
-        
+
         .nav-link.active {
             color: var(--accent-color) !important;
         }
-        
+
         .carousel-item {
             height: 100vh;
             min-height: 500px;
             background-size: cover;
             background-position: center;
         }
-        
+
         .carousel-item img {
             object-fit: cover;
             height: 100%;
         }
-        
+
         .carousel-caption {
             bottom: 30%;
             text-align: left;
@@ -92,48 +94,48 @@
             background: rgba(0, 0, 0, 0.6);
             border-radius: 10px;
         }
-        
+
         .carousel-caption h1 {
             font-size: 3rem;
             font-weight: 700;
             margin-bottom: 20px;
         }
-        
+
         .carousel-caption p {
             font-size: 1.2rem;
         }
-        
+
         footer {
             background-color: var(--secondary-color);
             color: white;
             padding: 50px 0 20px;
         }
-        
+
         footer h5 {
             font-weight: 600;
             margin-bottom: 20px;
         }
-        
+
         footer ul {
             list-style: none;
             padding: 0;
         }
-        
+
         footer ul li {
             margin-bottom: 10px;
         }
-        
+
         footer ul li a {
             color: #ddd;
             text-decoration: none;
             transition: all 0.3s;
         }
-        
+
         footer ul li a:hover {
             color: var(--accent-color);
             padding-left: 5px;
         }
-        
+
         .social-links a {
             display: inline-block;
             width: 40px;
@@ -146,33 +148,33 @@
             margin-right: 10px;
             transition: all 0.3s;
         }
-        
+
         .social-links a:hover {
             background: var(--accent-color);
             transform: translateY(-5px);
         }
-        
+
         .copyright {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 20px;
             margin-top: 30px;
         }
-        
+
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
-        
+
         .btn-primary:hover {
             background-color: var(--secondary-color);
             border-color: var(--secondary-color);
         }
-        
+
         .btn-outline-light:hover {
             color: var(--primary-color);
         }
     </style>
-        <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -190,10 +192,23 @@
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/EduAI">EduAI</a></li>
+
+                    <div class="dropdown" style="position: relative; top: 4px">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="background-color: transparent;">
+                            Explore
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: rgb(69, 25, 135);">
+                            <li class="nav-item"><a class="nav-link" href="/EduAI">EduAI</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/ansCheck">AnsCheck</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/quiz">QuizGenerate</a></li>
+                        </ul>
+                    </div>
                     <li class="nav-item"><a class="nav-link" href="/MockInterview">AI Teacher Convo</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="/login">Teacher Login</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary ms-2" href="/register">Register School</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="/login">Teacher Login</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary ms-2" href="/register">Register School</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -202,7 +217,8 @@
     <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="Classroom Teaching">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    class="d-block w-100" alt="Classroom Teaching">
                 <div class="carousel-caption">
                     <h1>Empowering Educators with AI</h1>
                     <p>Reduce teacher workload while providing personalized feedback to every student</p>
@@ -210,7 +226,8 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="Teacher Grading Papers">
+                <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    class="d-block w-100" alt="Teacher Grading Papers">
                 <div class="carousel-caption">
                     <h1>Automated Assignment Grading</h1>
                     <p>Save hours of grading time with our AI-powered assessment system</p>
@@ -218,7 +235,8 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block w-100" alt="Student Receiving Feedback">
+                <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    class="d-block w-100" alt="Student Receiving Feedback">
                 <div class="carousel-caption">
                     <h1>Personalized Student Feedback</h1>
                     <p>AI-generated, individualized feedback to help each student improve</p>
@@ -233,7 +251,7 @@
             <span class="carousel-control-next-icon"></span>
         </button>
     </div>
-    
+
     <!-- Features Section -->
     <section class="py-5 bg-light">
         <div class="container">
@@ -249,7 +267,8 @@
                                 <i class="fas fa-robot fa-2x"></i>
                             </div>
                             <h4>Automated Grading</h4>
-                            <p>AI that grades assignments, tests, and essays with human-level accuracy, saving teachers countless hours.</p>
+                            <p>AI that grades assignments, tests, and essays with human-level accuracy, saving teachers
+                                countless hours.</p>
                         </div>
                     </div>
                 </div>
@@ -260,7 +279,8 @@
                                 <i class="fas fa-comments fa-2x"></i>
                             </div>
                             <h4>Personalized Feedback</h4>
-                            <p>Tailored feedback for each student's work, highlighting strengths and areas for improvement.</p>
+                            <p>Tailored feedback for each student's work, highlighting strengths and areas for
+                                improvement.</p>
                         </div>
                     </div>
                 </div>
@@ -284,16 +304,22 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <img src="https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/07/E_SDG-goals_icons-individual-rgb-04.png" alt="SDG 4: Quality Education" class="img-fluid rounded shadow">
+                    <img src="https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/07/E_SDG-goals_icons-individual-rgb-04.png"
+                        alt="SDG 4: Quality Education" class="img-fluid rounded shadow">
                 </div>
                 <div class="col-lg-6">
                     <h2 class="fw-bold mb-4">Supporting UN Sustainable Development Goal 4</h2>
-                    <p class="lead">EduFeedback aligns with SDG 4: Quality Education by helping ensure inclusive and equitable quality education through:</p>
+                    <p class="lead">EduFeedback aligns with SDG 4: Quality Education by helping ensure inclusive and
+                        equitable quality education through:</p>
                     <ul class="fa-ul">
-                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Reducing teacher workload in under-resourced schools</li>
-                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Providing personalized learning experiences for all students</li>
-                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Enabling teachers to focus more on teaching and mentoring</li>
-                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Making quality feedback accessible regardless of class size</li>
+                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Reducing teacher workload in
+                            under-resourced schools</li>
+                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Providing personalized learning
+                            experiences for all students</li>
+                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Enabling teachers to focus more on
+                            teaching and mentoring</li>
+                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Making quality feedback accessible
+                            regardless of class size</li>
                     </ul>
                     <a href="/about" class="btn btn-light mt-3">Learn About Our Mission</a>
                 </div>
@@ -315,9 +341,11 @@
                             <div class="mb-3">
                                 <i class="fas fa-quote-left text-muted"></i>
                             </div>
-                            <p class="mb-4">EduFeedback has cut my grading time by 70%, allowing me to focus on creating better lessons and giving more one-on-one attention to students who need it most.</p>
+                            <p class="mb-4">EduFeedback has cut my grading time by 70%, allowing me to focus on creating
+                                better lessons and giving more one-on-one attention to students who need it most.</p>
                             <div class="d-flex align-items-center">
-                                <img src="https://randomuser.me/api/portraits/women/45.jpg" class="rounded-circle me-3" width="50" alt="Teacher">
+                                <img src="https://randomuser.me/api/portraits/women/45.jpg" class="rounded-circle me-3"
+                                    width="50" alt="Teacher">
                                 <div>
                                     <h6 class="mb-0">Sarah Johnson</h6>
                                     <small class="text-muted">High School English Teacher</small>
@@ -332,9 +360,12 @@
                             <div class="mb-3">
                                 <i class="fas fa-quote-left text-muted"></i>
                             </div>
-                            <p class="mb-4">The personalized feedback our students receive has dramatically improved their performance and engagement. It's like having a teaching assistant for every student.</p>
+                            <p class="mb-4">The personalized feedback our students receive has dramatically improved
+                                their performance and engagement. It's like having a teaching assistant for every
+                                student.</p>
                             <div class="d-flex align-items-center">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-3" width="50" alt="Principal">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="rounded-circle me-3"
+                                    width="50" alt="Principal">
                                 <div>
                                     <h6 class="mb-0">Michael Chen</h6>
                                     <small class="text-muted">School Principal</small>
@@ -349,9 +380,12 @@
                             <div class="mb-3">
                                 <i class="fas fa-quote-left text-muted"></i>
                             </div>
-                            <p class="mb-4">In our rural school with limited resources, EduFeedback has been transformative. Our teachers are less stressed and our students are performing better than ever.</p>
+                            <p class="mb-4">In our rural school with limited resources, EduFeedback has been
+                                transformative. Our teachers are less stressed and our students are performing better
+                                than ever.</p>
                             <div class="d-flex align-items-center">
-                                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="50" alt="Administrator">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3"
+                                    width="50" alt="Administrator">
                                 <div>
                                     <h6 class="mb-0">Amina Diallo</h6>
                                     <small class="text-muted">School Administrator</small>
@@ -368,7 +402,8 @@
     <section class="py-5 bg-dark text-white">
         <div class="container text-center">
             <h2 class="fw-bold mb-4">Ready to Transform Your Classroom?</h2>
-            <p class="lead mb-5">Join thousands of educators who are saving time and improving student outcomes with EduFeedback.</p>
+            <p class="lead mb-5">Join thousands of educators who are saving time and improving student outcomes with
+                EduFeedback.</p>
             <div class="d-flex justify-content-center gap-3">
                 <a href="/register" class="btn btn-primary btn-lg">Register Your School</a>
                 <a href="/contact" class="btn btn-outline-light btn-lg">Request Demo</a>
@@ -382,7 +417,8 @@
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <h5>EduFeedback</h5>
-                    <p>AI-powered teacher assistant that automates grading and provides personalized feedback to support educators and enhance student learning.</p>
+                    <p>AI-powered teacher assistant that automates grading and provides personalized feedback to support
+                        educators and enhance student learning.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>

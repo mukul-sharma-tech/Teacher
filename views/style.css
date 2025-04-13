@@ -460,3 +460,70 @@ h2 {
 
 
 
+
+
+
+
+/* NAVBAR STYLES */
+.navbar {
+    background: linear-gradient(135deg, #6c5ce7, #341f97);
+    padding: 0.8rem 1rem;
+    transition: all 0.3s ease-in-out;
+    z-index: 999;
+  }
+  
+  .navbar .navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #ffffff;
+  }
+  
+  .navbar .navbar-brand span {
+    color: #00cec9;
+  }
+  
+  .navbar .nav-link {
+    font-weight: 500;
+    color: #ffffff !important;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease, background 0.3s ease;
+  }
+  
+  .navbar .nav-link:hover,
+  .navbar .nav-link.active {
+    color: #ffeaa7 !important;
+  }
+  
+  .navbar .btn {
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-weight: 500;
+    transition: all 0.3s ease-in-out;
+    font-size: 0.95rem;
+  }
+  
+  .navbar .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+  
+  .navbar .btn-primary {
+    background-color: #00cec9;
+    border: none;
+  }
+  
+  .navbar .btn-primary:hover {
+    background-color: #00bfa6;
+    color: #fff;
+  }
+  
+  /* Optional Scroll Shadow */
+  nav.shadow {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  
+  
+
+
+  

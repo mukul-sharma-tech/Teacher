@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D AI Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Main Layout */
+        .app-container {
+            display: flex;
+            height: 100%;
+        }
+
+        .avatar-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+        }
+
+        .chat-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-left: 1px solid #e0e0e0;
+        }
+
+        /* Avatar Container */
+        .avatar-container {
+            width: 400px;
+            height: 500px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .avatar-container.speaking {
+            transform: scale(1.05);
+        }
+
+        /* 3D Avatar Styles */
+        .avatar {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .head {
+            width: 180px;
+            height: 220px;
+            background-color: #FFDBAC;
+            border-radius: 50%;
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+
+        .hair {
+            position: absolute;
+            width: 200px;
+            height: 120px;
+            background-color: #5A3921;
+            border-radius: 50% 50% 0 0;
+            top: -30px;
+            left: -10px;
+            z-index: 5;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .eyebrows {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 45px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .eyebrow {
+            width: 40px;
+            height: 8px;
+            background-color: #5A3921;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .eyebrow.left {
+            transform: rotate(-5deg);
+        }
+
+        .eyebrow.right {
+            transform: rotate(5deg);
+        }
+
+        .eyes {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 60px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .eye {
+            width: 35px;
+            height: 25px;
+            background-color: white;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .eye::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #333;
+            border-radius: 50%;
+            top: 5px;
+            left: 10px;
+        }
+
+        .pupil {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #000;
+            border-radius: 50%;
+            top: 7px;
+            left: 12px;
+            z-index: 2;
+        }
+
+        .nose {
+            width: 20px;
+            height: 30px;
+            background-color: #E8C4A8;
+            border-radius: 30px;
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .mouth {
+            width: 60px;
+            height: 20px;
+            background-color: #FF6B6B;
+            border-radius: 0 0 30px 30px;
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.2s ease;
+            overflow: hidden;
+            z-index: 3;
+        }
+
+        .tongue {
+            position: absolute;
+            width: 40px;
+            height: 15px;
+            background-color: #FFB6C1;
+            border-radius: 20px 20px 0 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+        }
+
+        .ears {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            width: 180px;
+            top: 70px;
+        }
+
+        .ear {
+            width: 15px;
+            height: 25px;
+            background-color: #FFDBAC;
+            border-radius: 0 50% 50% 0;
+        }
+
+        .ear.left {
+            transform: rotate(-30deg) translateX(-5px);
+            border-radius: 50% 0 0 50%;
+        }
+
+        .ear.right {
+            transform: rotate(30deg) translateX(5px);
+        }
+
+        .blush {
+            width: 25px;
+            height: 15px;
+            background-color: rgba(255, 192, 203, 0.4);
+            border-radius: 50%;
+            position: absolute;
+            top: 100px;
+        }
+
+        .blush.left {
+            left: 25px;
+        }
+
+        .blush.right {
+            right: 25px;
+        }
+
+        /* Upper Body */
+        .upper-body {
+            position: absolute;
+            width: 200px;
+            height: 250px;
+            background-color: #6D8BFF;
+            border-radius: 20px;
+            top: 220px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .neck {
+            width: 40px;
+            height: 30px;
+            background-color: #FFDBAC;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        /* Mouth shapes for lip-sync */
+        .mouth-A {
+            height: 40px;
+            width: 50px;
+            border-radius: 0 0 40px 40px;
+        }
+
+        .mouth-A .tongue {
+            display: block;
+        }
+
+        .mouth-B {
+            height: 5px;
+            width: 40px;
+            border-radius: 0;
+        }
+
+        .mouth-C {
+            height: 25px;
+            width: 60px;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .mouth-D {
+            height: 15px;
+            width: 30px;
+            border-radius: 50%;
+        }
+
+        .mouth-E {
+            height: 20px;
+            width: 60px;
+            border-radius: 0 0 30px 30px;
+        }
+
+        /* Chat Interface */
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h2 {
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        #chat-input:focus {
+            border-color: #6D8BFF;
+            box-shadow: 0 0 0 3px rgba(109, 139, 255, 0.2);
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: #6D8BFF;
+            color: white;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .icon-button:hover {
+            background-color: #5A7AFF;
+            transform: scale(1.05);
+        }
+
+        .icon-button.active {
+            background-color: #FF6B6B;
+        }
+
+        /* Chat Messages */
+        .chat-message {
+            display: flex;
+            margin-bottom: 15px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .ai-message {
+            margin-right: auto;
+        }
+
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #6D8BFF;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            margin: 0 10px;
+            flex-shrink: 0;
+        }
+
+        .user-message .chat-avatar {
+            background-color: #FF6B6B;
+        }
+
+        .message-text {
+            padding: 12px 16px;
+            border-radius: 18px;
+            background-color: #f0f2f5;
+            line-height: 1.4;
+        }
+
+        .user-message .message-text {
+            background-color: #6D8BFF;
+            color: white;
+        }
+
+        .ai-message.thinking .message-text {
+            animation: pulse 1.5s infinite;
+            width: 60px;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Language Selector */
+        .language-selector {
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 15px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background-color: #6D8BFF;
+            color: white;
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hindi text support */
+        .hindi-text {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+
+            .avatar-section {
+                height: 300px;
+            }
+
+            .avatar-container {
+                width: 250px;
+                height: 350px;
+            }
+
+            .head {
+                width: 150px;
+                height: 180px;
+            }
+
+            .upper-body {
+                width: 180px;
+                height: 200px;
+                top: 150px;
+            }
+
+            .chat-section {
+                border-left: none;
+                border-top: 1px solid #e0e0e0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- 3D Avatar Section -->
+        <div class="avatar-section">
+            <div id="avatar-container" class="avatar-container">
+                <div class="avatar">
+                    <!-- Head and Face -->
+                    <div class="head">
+                        <div class="hair"></div>
+                        <div class="face">
+                            <div class="eyebrows">
+                                <div class="eyebrow left"></div>
+                                <div class="eyebrow right"></div>
+                            </div>
+                            <div class="eyes">
+                                <div class="eye left">
+                                    <div class="pupil"></div>
+                                </div>
+                                <div class="eye right">
+                                    <div class="pupil"></div>
+                                </div>
+                            </div>
+                            <div class="nose"></div>
+                            <div class="mouth" id="mouth">
+                                <div class="tongue"></div>
+                            </div>
+                            <div class="ears">
+                                <div class="ear left"></div>
+                                <div class="ear right"></div>
+                            </div>
+                            <div class="blush left"></div>
+                            <div class="blush right"></div>
+                        </div>
+                    </div>
+
+                    <!-- Upper Body -->
+                    <div class="upper-body">
+                        <div class="neck"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Interface Section -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <h2>AI Assistant</h2>
+                <div class="language-selector">
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="hi">HI</button>
+                    <button id="clear-chat-button">Clear Chat</button>
+                </div>
+            </div>
+
+            <div id="chat-container" class="chat-container"></div>
+
+            <div class="input-container">
+                <input type="text" id="chat-input" placeholder="Type or speak your message...">
+                <button id="mic-button" class="icon-button">🎤</button>
+                <button id="send-button" class="icon-button">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden text input for avatar speech -->
+    <textarea id="text-input" style="display: none;"></textarea>
+
+    <script>
+        // AI Assistant with Avatar Integration
+        class AIAssistant {
+            constructor() {
+                this.chatHistory = [];
+                this.isSpeaking = false;
+                this.isListening = false;
+                this.currentLanguage = 'en';
+                this.initElements();
+                this.initEventListeners();
+                this.setupSpeech();
+                this.loadVoices();
+                this.currentMouthShape = 'E'; // Neutral
+                this.stopSpeaking();
+            }
+
+            stopSpeaking() {
+                if (this.synth && this.synth.speaking) {
+                    this.synth.cancel();
+                    this.isSpeaking = false;
+                    this.avatarContainer.classList.remove('speaking');
+                    this.setMouthShape('E');
+                }
+            }
+
+
+            initElements() {
+                this.chatInput = document.getElementById('chat-input');
+                this.sendButton = document.getElementById('send-button');
+                this.micButton = document.getElementById('mic-button');
+                this.chatContainer = document.getElementById('chat-container');
+                this.avatarContainer = document.getElementById('avatar-container');
+                this.textInput = document.getElementById('text-input');
+                this.mouth = document.getElementById('mouth');
+                this.langButtons = document.querySelectorAll('.lang-btn');
+
+                this.clearChatButton = document.getElementById('clear-chat-button');
+                this.clearChatButton.addEventListener('click', () => {
+                    this.chatContainer.innerHTML = '';
+                    this.chatHistory = [];
+                    this.stopSpeaking();
+                });
+
+            }
+
+            stopSpeaking() {
+                if (this.synth && this.synth.speaking) {
+                    this.synth.cancel();
+                    this.isSpeaking = false;
+                    this.avatarContainer.classList.remove('speaking');
+                    this.setMouthShape('E');
+                }
+            }
+
+            initEventListeners() {
+                this.sendButton.addEventListener('click', () => this.sendMessage());
+                this.chatInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.sendMessage();
+                });
+                this.micButton.addEventListener('click', () => this.toggleVoiceInput());
+
+                this.langButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.langButtons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.currentLanguage = btn.dataset.lang;
+                        this.updateLanguageUI();
+                    });
+                });
+            }
+
+            setupSpeech() {
+                this.synth = window.speechSynthesis;
+                this.utterance = null;
+
+                // Setup Web Speech Recognition
+                if ('webkitSpeechRecognition' in window) {
+                    this.recognition = new webkitSpeechRecognition();
+                    this.recognition.continuous = false;
+                    this.recognition.interimResults = false;
+                    this.recognition.onresult = (event) => {
+                        const transcript = event.results[0][0].transcript;
+                        this.chatInput.value = transcript;
+                        this.sendMessage();
+                    };
+                    this.recognition.onerror = (event) => {
+                        console.error('Speech recognition error', event.error);
+                        this.micButton.classList.remove('active');
+                        this.isListening = false;
+                    };
+                }
+            }
+
+            loadVoices() {
+                // Voices may not be loaded immediately
+                const voices = this.synth.getVoices();
+                if (voices.length > 0) return;
+
+                // Try again after a delay
+                setTimeout(() => {
+                    this.synth.getVoices();
+                }, 1000);
+            }
+
+            updateLanguageUI() {
+                // Set recognition language
+                if (this.recognition) {
+                    this.recognition.lang = this.currentLanguage === 'hi' ? 'hi-IN' : 'en-US';
+                }
+
+                // Update input placeholder
+                this.chatInput.placeholder = this.currentLanguage === 'hi' ?
+                    "संदेश टाइप करें या बोलें..." :
+                    "Type or speak your message...";
+            }
+
+            // async sendMessage() {
+            //     const message = this.chatInput.value.trim();
+            //     if (!message) return;
+
+            //     // Add user message to chat
+            //     this.addMessage('user', message);
+            //     this.chatInput.value = '';
+
+            //     try {
+            //         // Show thinking indicator
+            //         this.addMessage('ai', '...', true);
+
+            //         // Send to backend
+            //         const response = await fetch('/chat', {
+            //             method: 'POST',
+            //             headers: { 'Content-Type': 'application/json' },
+            //             body: JSON.stringify({
+            //                 message: message,
+            //                 language: this.currentLanguage,
+            //                 context: this.chatHistory
+            //             })
+            //         });
+
+            //         const data = await response.json();
+
+            //         // Remove thinking indicator
+            //         this.removeLastAIMessage();
+
+            //         // Add AI response to chat
+            //         this.addMessage('ai', data.response);
+
+            //         // Update chat history
+            //         this.chatHistory.push(
+            //             { role: 'user', content: message },
+            //             { role: 'model', content: data.response }
+            //         );
+
+            //         // Make avatar speak and animate
+            //         this.makeAvatarSpeak(data.response);
+
+            //     } catch (error) {
+            //         console.error('Error:', error);
+            //         this.removeLastAIMessage();
+            //         this.addMessage('ai', 'Sorry, I encountered an error.');
+            //     }
+            // }
+
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message) return;
+
+                // Add user message to chat
+                this.addMessage('user', message);
+                this.chatInput.value = '';
+
+                try {
+                    // Show thinking indicator
+                    this.addMessage('ai', '...', true);
+
+                    // Send message to backend
+                    const response = await fetch('/chatFriend', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: message,
+                            language: this.currentLanguage,
+                            context: this.chatHistory
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    // Remove thinking indicator
+                    this.removeLastAIMessage();
+
+                    // Add AI response to chat
+                    this.addMessage('ai', data.response);
+
+                    // ✅ Open website if URL is returned
+                    if (data.openUrl) {
+                        const newTab = window.open(data.openUrl, '_blank');
+
+                        // Fallback to Google search if direct link fails
+                        setTimeout(() => {
+                            if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+                                window.open(data.fallbackUrl, '_blank');
+                            }
+                        }, 2000);
+                    }
+
+                    // Update chat history
+                    this.chatHistory.push(
+                        { role: 'user', content: message },
+                        { role: 'model', content: data.response }
+                    );
+
+                    // Animate and speak response
+                    this.makeAvatarSpeak(data.response);
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    this.removeLastAIMessage();
+                    this.addMessage('ai', 'Sorry, I encountered an error.');
+                }
+            }
+
+
+            makeAvatarSpeak(text) {
+                // Stop any current speech
+                if (this.isSpeaking) {
+                    this.synth.cancel();
+                }
+
+                // Set up new utterance
+                this.textInput.value = text;
+                this.utterance = new SpeechSynthesisUtterance(text);
+
+                // Configure voice based on language
+                const voices = this.synth.getVoices();
+                const langCode = this.currentLanguage === 'hi' ? 'hi-IN' : 'en-US';
+                const preferredVoice = voices.find(v => v.lang.includes(langCode)) ||
+                    voices.find(v => v.lang.includes('en-US'));
+                this.utterance.voice = preferredVoice;
+                this.utterance.lang = preferredVoice ? preferredVoice.lang : 'en-US';
+
+                // Lip sync animation
+                this.utterance.onboundary = (event) => {
+                    if (event.name === 'word') {
+                        const char = text.charAt(event.charIndex).toUpperCase();
+                        this.updateMouthShape(char);
+                    }
+                };
+
+                this.utterance.onstart = () => {
+                    this.isSpeaking = true;
+                    this.avatarContainer.classList.add('speaking');
+                };
+
+                this.utterance.onend = () => {
+                    this.isSpeaking = false;
+                    this.avatarContainer.classList.remove('speaking');
+                    this.setMouthShape('E'); // Neutral
+                };
+
+                this.utterance.onerror = (event) => {
+                    console.error('Speech error:', event);
+                    this.isSpeaking = false;
+                    this.avatarContainer.classList.remove('speaking');
+                    this.setMouthShape('E');
+                };
+
+                this.synth.speak(this.utterance);
+            }
+
+            toggleVoiceInput() {
+                if (!this.recognition) {
+                    alert("Voice input not supported in your browser");
+                    return;
+                }
+
+                if (this.isListening) {
+                    this.recognition.stop();
+                    this.micButton.classList.remove('active');
+                    this.isListening = false;
+                } else {
+                    this.recognition.start();
+                    this.micButton.classList.add('active');
+                    this.isListening = true;
+                }
+            }
+
+            addMessage(sender, text, isThinking = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add(`${sender}-message`, 'chat-message');
+                if (isThinking) messageDiv.classList.add('thinking');
+
+                const avatar = sender === 'ai' ?
+                    '<div class="chat-avatar">AI</div>' :
+                    '<div class="chat-avatar">You</div>';
+
+                messageDiv.innerHTML = `
+                    ${avatar}
+                    <div class="message-text">${text}</div>
+                `;
+
+                this.chatContainer.appendChild(messageDiv);
+                this.chatContainer.scrollTop = this.chatContainer.scrollHeight;
+            }
+
+            removeLastAIMessage() {
+                const lastAIMessage = this.chatContainer.querySelector('.ai-message:last-child');
+                if (lastAIMessage) lastAIMessage.remove();
+            }
+
+            updateMouthShape(char) {
+                // Phoneme maps for different languages
+                const phonemeMaps = {
+                    en: {
+                        'A': ['A', 'E', 'I', 'O', 'U'],
+                        'B': ['M', 'B', 'P'],
+                        'C': ['F', 'V', 'S', 'Z', 'L', 'N'],
+                        'D': ['W', 'Q', 'OO'],
+                        'E': ['rest']
+                    },
+                    hi: {
+                        'A': ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ए', 'ऐ', 'ओ', 'औ'],
+                        'B': ['म', 'ब', 'प'],
+                        'C': ['फ', 'व', 'स', 'श', 'ष', 'ल', 'न'],
+                        'D': ['ह', 'ख', 'ग', 'घ'],
+                        'E': ['rest']
+                    }
+                };
+
+                const currentPhonemeMap = phonemeMaps[this.currentLanguage] || phonemeMaps.en;
+                let shape = 'E'; // Default
+
+                // Check which shape this character belongs to
+                for (const [shapeKey, chars] of Object.entries(currentPhonemeMap)) {
+                    if (chars.some(ph => char.toUpperCase().includes(ph.toUpperCase()))) {
+                        shape = shapeKey;
+                        break;
+                    }
+                }
+
+                this.setMouthShape(shape);
+            }
+
+            setMouthShape(shape) {
+                if (this.currentMouthShape === shape) return;
+
+                // Remove all mouth shape classes
+                this.mouth.className = 'mouth';
+
+                // Mouth shapes mapping
+                const mouthShapes = {
+                    'A': 'mouth-A',  // Open (ah, oh)
+                    'B': 'mouth-B',  // Closed (m, b, p)
+                    'C': 'mouth-C',  // Slightly open (ee, eh)
+                    'D': 'mouth-D',  // Small open (oo)
+                    'E': 'mouth-E'   // Neutral/rest
+                };
+
+                // Add the new shape class
+                if (mouthShapes[shape]) {
+                    this.mouth.classList.add(mouthShapes[shape]);
+                    this.currentMouthShape = shape;
+                }
+            }
+        }
+
+        // Initialize the assistant when DOM loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const assistant = new AIAssistant();
+        });
+
+
+
+
+    </script>
+</body>
+
+</html>

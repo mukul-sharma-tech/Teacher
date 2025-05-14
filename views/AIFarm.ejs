@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduFeedback - AI-Powered Teacher Assistant</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="https://images.unsplash.com/photo-1511735643442-503bb3bd348a?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" type="image/icon type">
+    <link rel="icon"
+        href="https://images.unsplash.com/photo-1511735643442-503bb3bd348a?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        type="image/icon type">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,68 +16,72 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
 
-<link rel="stylesheet" href="style.css">
-<style>
-    .chat {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* Vertically center */
-  padding: 20px;
-  margin-top: 50px;
-}
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .chat {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* Vertically center */
+            padding: 20px;
+            margin-top: 50px;
+        }
 
-.chat-container {
-  width: 100%;
-  max-width: 600px; /* Controls width on large screens */
-}
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            /* Controls width on large screens */
+        }
+    </style>
 
-</style>
+    <style>
 
-<style>
-    
-</style>
+    </style>
 
 </head>
 
 <body data-bs-spy="scroll" data-bs-target=".navbar">
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="#"><span>Edu</span>Feedback</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-                <li class="nav-item"><a class="nav-link active" href="/contact">Contact</a></li>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><span>Edu</span>Feedback</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/contact">Contact</a></li>
 
-                <div class="dropdown" style="position: relative; top: 4px">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false" style="background-color: transparent;">
-                        Explore
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: rgb(69, 25, 135);">
-                        <li class="nav-item"><a class="nav-link" href="/EduAI">EduAI</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/ansCheck">AnsCheck</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/quiz">QuizGenerate</a></li>
-                    </ul>
-                </div>
-                <li class="nav-item"><a class="nav-link" href="/MockInterview">AI Teacher Convo</a></li>
-                <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="/login">Teacher Login</a>
-                </li>
-                <li class="nav-item"><a class="nav-link btn btn-primary ms-2" href="/register">Register School</a>
-                </li>
-            </ul>
+                    <div class="dropdown" style="position: relative; top: 4px">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="background-color: transparent;">
+                            Explore
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                            style="background-color: rgb(69, 25, 135);">
+                            <li class="nav-item"><a class="nav-link" href="/EduAI">EduAI</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/ansCheck">AnsCheck</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/quiz">QuizGenerate</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/friend">AIFriend</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/assignment">Assignment</a></li>
+                        </ul>
+                    </div>
+                    <li class="nav-item"><a class="nav-link" href="/MockInterview">AI Teacher Convo</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-outline-light ms-2" href="/login">Teacher Login</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary ms-2" href="/register">Register School</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 
-    <div class="chat" >
+    <div class="chat">
         <div class="chat-container">
             <h2>🤖 EduAI</h2>
 
@@ -99,7 +105,8 @@
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <h5>EduFeedback</h5>
-                    <p>AI-powered teacher assistant that automates grading and provides personalized feedback to support educators and enhance student learning.</p>
+                    <p>AI-powered teacher assistant that automates grading and provides personalized feedback to support
+                        educators and enhance student learning.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>

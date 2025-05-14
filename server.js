@@ -10,7 +10,7 @@ import fs from "fs";
 import pdfParse from "pdf-parse"; // Extracts text from PDFs
 import { v2 as cloudinary } from 'cloudinary';
 import PDFDocument from 'pdfkit';
-
+import { readFile } from 'fs/promises';
 const app = express();
 
 // Middleware Configuration
@@ -615,6 +615,11 @@ app.get('/ansCheck', (req, res) => {
     res.render('ans');
 });
 
+
+// app.get('/assignment', (req, res) => {
+//     res.render('Assignment');
+// });
+
 //ans
 // app.post('/evaluate', upload.single('answerPdf'), async (req, res) => {
 //     try {
@@ -837,6 +842,621 @@ app.post('/download-report', (req, res) => {
 
 
 
+
+
+
+
+
+
+// 
+// import { PDFDocument } from 'pdf-lib';
+// import fs from 'fs/promises';  // Use fs/promises to work with promises
+
+/* const extractTextFromPdf = async (filePath) => {
+    try {
+        // Read the PDF file from the file system
+        const pdfBytes = await fs.readFile(filePath);
+        const pdfDoc = await PDFDocument.load(pdfBytes);
+        
+        // Extract the text content
+        const pages = pdfDoc.getPages();
+        const text = await Promise.all(pages.map(async (page) => {
+            const textContent = await page.getTextContent();
+            return textContent.items.map(item => item.str).join(' ');
+        }));
+
+        return text.join('\n');
+    } catch (error) {
+        console.error('Error extracting text from PDF:', error);
+        throw error;
+    }
+};
+
+
+// Route to solve the assignment
+app.post('/solveAssignment', upload.single('answerPdf'), async (req, res) => {
+    try {
+        // Check if the file exists in memory
+        if (!req.file) {
+            return res.status(400).json({ error: 'No PDF file uploaded' });
+        }
+
+        // Extract text from PDF
+        // const pdfBytes = await fs.readFile(req.file.path);
+        const pdfBytes = await readFile(req.file.path);
+        const pdfDoc = await PDFDocument.load(pdfBytes);
+        
+        const pages = pdfDoc.getPages();
+        const extractedText = await Promise.all(pages.map(async (page) => {
+            const textContent = await page.getTextContent();
+            return textContent.items.map(item => item.str).join(' ');
+        }));
+        
+        const fullText = extractedText.join('\n');
+
+        if (!fullText || fullText.trim().length === 0) {
+            return res.status(400).json({ error: 'PDF is empty or could not be read' });
+        }
+
+        // Process with Gemini (or your AI model)
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const prompt = `
+        You are an expert academic assistant. A student has uploaded a PDF containing their assignment questions. Your task is to read these questions and provide accurate, clear, and well-structured answers.
+        
+        Below is the extracted content from the assignment PDF:
+        
+        """
+        ${fullText}
+        """
+        
+        Instructions:
+        - Identify each question clearly.
+        - Provide a detailed and correct answer for each question.
+        - Format the answers neatly with headings and bullet points or numbered lists where appropriate.
+        - Use formal academic tone suitable for university-level assignments.
+        - If any question is unclear or incomplete, mention that briefly and do your best to interpret it.
+        
+        Respond only with answers. Do not repeat the questions unless necessary for clarity.
+        `;
+        
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const evaluation = response.text();
+
+        // Store the extracted text and evaluation results
+        const reportData = {
+            date: new Date().toISOString(),
+            originalText: fullText,
+            evaluation,
+        };
+
+        res.render('Assignment', {
+            originalText: fullText,
+            evaluation,
+            downloadAvailable: true
+        });
+
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Route to download the assignment solutions
+app.post('/downloadAssignment', (req, res) => {
+    try {
+        const { originalText, solutions } = req.body;
+
+        if (!originalText || !solutions) {
+            return res.status(400).send('Missing original questions or solutions.');
+        }
+
+        const filename = `Assignment_Solutions_${Date.now()}.pdf`;
+
+        // Set response headers
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-Type', 'application/pdf');
+
+        // Create and stream PDF
+        const doc = new PDFDocument();
+        doc.pipe(res);
+
+        // PDF Content
+        doc.fontSize(16).text('ASSIGNMENT SOLUTIONS', { align: 'center' });
+        doc.moveDown();
+
+        doc.fontSize(14).text('Original Questions:', { underline: true });
+        doc.fontSize(12).text(originalText);
+        doc.moveDown();
+
+        doc.fontSize(14).text('AI-Generated Solutions:', { underline: true });
+        doc.fontSize(12).text(solutions, {
+            width: 450,
+            align: 'left'
+        });
+
+        doc.end();
+
+    } catch (error) {
+        console.error('Download error:', error);
+        res.status(500).send('Error generating PDF');
+    }
+}); */
+
+
+
+// app.post('/solveAssignmnet', upload.single('answerPdf'), async (req, res) => {
+//     try {
+//         // Check if file exists in memory
+//         if (!req.file) {
+//             return res.status(400).json({ error: 'No PDF file uploaded' });
+//         }
+
+//         // Parse PDF from buffer
+//         let extractedText = '';
+//         try {
+//             const pdfData = await pdfParse(req.file.buffer);
+//             extractedText = pdfData.text;
+//         } catch (pdfError) {
+//             console.error('PDF Parse Error:', pdfError);
+//             return res.render('Assignment', {
+//                 originalText: '',
+//                 evaluation: '❌ Failed to extract text from the uploaded PDF. It may be corrupted or unsupported.',
+//                 downloadAvailable: false
+//             });
+//         }
+
+//         if (!extractedText || extractedText.trim().length === 0) {
+//             return res.render('Assignment', {
+//                 originalText: '',
+//                 evaluation: '⚠️ The uploaded PDF could not be read or is empty.',
+//                 downloadAvailable: false
+//             });
+//         }
+
+//         // Process with Gemini AI for answers
+//         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+//         const prompt = `
+//         You are an expert academic assistant. A student has uploaded a PDF containing their assignment questions. Your task is to read these questions and provide accurate, clear, and well-structured answers.
+        
+//         Below is the extracted content from the assignment PDF:
+        
+//         """
+//         ${extractedText}
+//         """
+        
+//         Instructions:
+//         - Identify each question clearly.
+//         - Provide a detailed and correct answer for each question.
+//         - For math problems, show all steps and explanations.
+//         - Format the answers neatly with headings and bullet points or numbered lists where appropriate.
+//         - Use formal academic tone suitable for university-level assignments.
+//         - If any question is unclear or incomplete, mention that briefly and do your best to interpret it.
+        
+//         Respond only with answers. Do not repeat the questions unless necessary for clarity.
+//         `;
+        
+        
+//         const result = await model.generateContent(prompt);
+//         const response = await result.response;
+//         const evaluation = response.text();
+
+//         // Render response to user with evaluation and original text
+//         res.render('Assignment', {
+//             originalText: extractedText,
+//             evaluation,
+//             downloadAvailable: true
+//         });
+
+//     } catch (error) {
+//         console.error('Error:', error);
+//         res.status(500).json({ error: error.message });
+//     }
+// });
+
+
+
+// app.post('/downloadAssignment', (req, res) => {
+//     try {
+//         const { originalText, solutions } = req.body;
+
+//         if (!originalText || !solutions) {
+//             return res.status(400).send('Missing original questions or solutions.');
+//         }
+
+//         const filename = `Assignment_Solutions_${Date.now()}.pdf`;
+
+//         // Set response headers
+//         res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+//         res.setHeader('Content-Type', 'application/pdf');
+
+//         // Create and stream PDF
+//         const doc = new PDFDocument();
+//         doc.pipe(res);
+
+//         // PDF Content
+//         doc.fontSize(16).text('ASSIGNMENT SOLUTIONS', { align: 'center' });
+//         doc.moveDown();
+
+//         doc.fontSize(14).text('Original Questions:', { underline: true });
+//         doc.fontSize(12).text(originalText);
+//         doc.moveDown();
+
+//         doc.fontSize(14).text('AI-Generated Solutions:', { underline: true });
+//         doc.fontSize(12).text(solutions, {
+//             width: 450,
+//             align: 'left'
+//         });
+
+//         doc.end();
+
+//     } catch (error) {
+//         console.error('Download error:', error);
+//         res.status(500).send('Error generating PDF');
+//     }
+// });
+
+
+
+
+app.post("/chatFriend", async (req, res) => {
+    const { message } = req.body;
+  
+    if (message.toLowerCase().startsWith("open ")) {
+      const query = message.toLowerCase().replace("open ", "").trim();
+      const domain = query.replace(/\s+/g, ""); // Remove spaces
+  
+      // Construct a direct URL and fallback search URL
+      const directUrl = `https://${domain}com`;
+      const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+  
+      // Send both options to the frontend
+      return res.json({
+        response: `Opening ${query}...`,
+        openUrl: directUrl,
+        fallbackUrl: searchUrl,
+      });
+    }
+  
+    try {
+      const chat = model.startChat({ history: [] });
+      const result = await chat.sendMessage(message);
+      const responseText = result.response.text();
+      res.json({ response: responseText });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Something went wrong!" });
+    }
+  });
+  
+
+app.get("/friend", (req, res) => {
+    res.sendFile(path.join(__dirname, "views", "head.html"));
+});
+
+
+
+
+
+
+
+// Route to show assignment solver page
+app.get('/assignment', (req, res) => {
+    res.render('assignment');
+});
+
+
+app.post('/solveAssignment', upload.single('answerPdf'), async (req, res) => {
+  try {
+        // Check if file exists in memory
+        if (!req.file) {
+            return res.status(400).json({ error: 'No PDF file uploaded' });
+        }
+
+        // Parse PDF from buffer
+        const pdfData = await pdfParse(req.file.buffer);
+        const extractedText = pdfData.text;
+
+        if (!extractedText || extractedText.trim().length === 0) {
+            return res.status(400).json({ error: 'PDF is empty or could not be read' });
+        }
+
+        // Process with Gemini
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const prompt = `You are an expert academic assistant. Analyze the following assignment questions and provide comprehensive, accurate solutions:
+        
+        Assignment Content:
+        """
+        ${extractedText}
+        """
+        
+        Requirements:
+        1. Identify each question clearly
+        2. Provide step-by-step solutions
+        3. Use appropriate academic formatting
+        4. Include explanations where needed
+        5. Maintain professional tone`;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const solutions = response.text();
+
+        // Generate downloadable report
+        const reportData = {
+            date: new Date().toISOString(),
+            originalText: extractedText,
+            solutions,
+            // studentName: req.body.studentName || 'Anonymous' // Add name field to form
+        };
+
+        // Store report data in session for download
+        // req.session.reportData = reportData;
+
+
+        res.render('solution', {
+            originalText: extractedText,
+            solutions,
+            downloadAvailable: true
+        });
+
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+
+
+
+// Route to process assignment solutions
+// app.post('/solveAssignment', upload.single('answerPdf'), async (req, res) => {
+    // try {
+    //     if (!req.file) {
+    //         return res.status(400).json({ error: 'No PDF file uploaded' });
+    //     }
+
+    //     const pdfBytes = await readFile(req.file.path);
+    //     const pdfDoc = await PDFDocument.load(pdfBytes);
+        
+    //     const pages = pdfDoc.getPages();
+    //     const extractedText = await Promise.all(pages.map(async (page) => {
+    //         const textContent = await page.getTextContent();
+    //         return textContent.items.map(item => item.str).join(' ');
+    //     }));
+        
+    //     const fullText = extractedText.join('\n');
+
+    //     if (!fullText || fullText.trim().length === 0) {
+    //         return res.status(400).json({ error: 'PDF is empty or could not be read' });
+    //     }
+
+    //     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    //     const prompt = `You are an expert academic assistant. Analyze the following assignment questions and provide comprehensive, accurate solutions:
+        
+    //     Assignment Content:
+    //     """
+    //     ${fullText}
+    //     """
+        
+    //     Requirements:
+    //     1. Identify each question clearly
+    //     2. Provide step-by-step solutions
+    //     3. Use appropriate academic formatting
+    //     4. Include explanations where needed
+    //     5. Maintain professional tone`;
+
+    //     const result = await model.generateContent(prompt);
+    //     const response = await result.response;
+    //     const solutions = response.text();
+
+    //     res.render('solution', {
+    //         originalText: fullText,
+    //         solutions,
+    //         downloadAvailable: true
+    //     });
+
+    // } catch (error) {
+    //     console.error('Error:', error);
+    //     res.status(500).json({ error: error.message });
+    // }
+//         try {
+//         // Check if file exists in memory
+//         if (!req.file) {
+//             return res.status(400).json({ error: 'No PDF file uploaded' });
+//         }
+
+//         // Parse PDF from buffer
+//         const pdfData = await pdfParse(req.file.buffer);
+//         const extractedText = pdfData.text;
+
+//         if (!extractedText || extractedText.trim().length === 0) {
+//             return res.status(400).json({ error: 'PDF is empty or could not be read' });
+//         }
+
+//         // Process with Gemini
+//         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+//         const prompt = `You are an expert academic assistant. Analyze the following assignment questions and provide comprehensive, accurate solutions:
+        
+//         Assignment Content:
+//         """
+//         ${fullText}
+//         """
+        
+//         Requirements:
+//         1. Identify each question clearly
+//         2. Provide step-by-step solutions
+//         3. Use appropriate academic formatting
+//         4. Include explanations where needed
+//         5. Maintain professional tone`;
+
+//         const result = await model.generateContent(prompt);
+//         const response = await result.response;
+//         const evaluation = response.text();
+
+//         // Generate downloadable report
+//         const reportData = {
+//             date: new Date().toISOString(),
+//             originalText: extractedText,
+//             evaluation,
+//             // studentName: req.body.studentName || 'Anonymous' // Add name field to form
+//         };
+
+//         // Store report data in session for download
+//         // req.session.reportData = reportData;
+
+
+//         res.render('solution', {
+//             originalText: extractedText,
+//             evaluation,
+//             downloadAvailable: true
+//         });
+
+//     } catch (error) {
+//         console.error('Error:', error);
+//         res.status(500).json({ error: error.message });
+//     }
+
+// });
+
+// Route to download assignment solutions as PDF
+// app.post('/downloadAssignment', (req, res) => {
+//     try {
+//         const { originalText, solutions } = req.body;
+//         const filename = `Assignment_Solutions_${Date.now()}.pdf`;
+
+//         res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+//         res.setHeader('Content-Type', 'application/pdf');
+
+//         const doc = new PDFDocument();
+//         doc.pipe(res);
+
+//         doc.fontSize(16).text('ASSIGNMENT SOLUTIONS', { align: 'center' });
+//         doc.moveDown();
+
+//         doc.fontSize(14).text('Original Questions:', { underline: true });
+//         doc.fontSize(11).text(originalText, { align: 'left' });
+//         doc.moveDown();
+
+//         doc.fontSize(14).text('AI-Generated Solutions:', { underline: true });
+//         doc.fontSize(11).text(solutions, { align: 'left' });
+
+//         doc.end();
+//     } catch (error) {
+//         console.error('Download error:', error);
+//         res.status(500).send('Error generating PDF');
+//     }
+// });
+
+
+app.post('/downloadAssignment', (req, res) => {
+    try {
+        const { originalText, solutions } = req.body;
+        const filename = `Assignment_Solutions_${Date.now()}.pdf`;
+
+        // Improved text cleaner that preserves formatting
+        const cleanText = (text) => {
+            return text
+                // Remove specific unwanted symbols but keep spaces
+                .replace(/Ð/g, '')
+                .replace(/�/g, '')
+                // Convert markdown bold to plain text
+                .replace(/\*\*/g, '')
+                // Preserve code blocks but clean them
+                .replace(/```(\w*)\n?([\s\S]*?)\n?```/g, '\n\n$2\n\n')
+                // Normalize line breaks without collapsing all spaces
+                .replace(/\r\n/g, '\n')
+                .replace(/\n{3,}/g, '\n\n');
+        };
+
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        res.setHeader('Content-Type', 'application/pdf');
+
+        const doc = new PDFDocument({ 
+            margin: 50,
+            lineGap: 5,
+            paragraphGap: 8
+        });
+        doc.pipe(res);
+
+        // Title
+        doc.fontSize(18).font('Helvetica-Bold')
+           .text('ASSIGNMENT SOLUTIONS', { align: 'center', underline: true });
+        doc.moveDown(2);
+
+        // Original Questions Section
+        doc.fontSize(14).font('Helvetica-Bold')
+           .text('ORIGINAL QUESTIONS:', { underline: true });
+        doc.moveDown();
+        
+        // Preserve original formatting with proper spacing
+        doc.fontSize(11).font('Helvetica')
+           .text(originalText, {
+               align: 'left',
+               indent: 10,
+               lineGap: 5,
+               paragraphGap: 8,
+               preserveLeading: true
+           });
+        doc.moveDown(2);
+
+        // Solutions Section
+        doc.fontSize(14).font('Helvetica-Bold')
+           .text('AI-GENERATED SOLUTIONS:', { underline: true });
+        doc.moveDown();
+
+        // Process solutions with better paragraph handling
+        const cleanedSolutions = cleanText(solutions);
+        const paragraphs = cleanedSolutions.split('\n\n'); // Split by double newlines
+        
+        paragraphs.forEach(para => {
+            if (para.trim() === '') return;
+            
+            // Detect question headings
+            if (para.match(/^Q[\d\.]+/i) || para.match(/^Question\s*\d+/i)) {
+                doc.moveDown();
+                doc.fontSize(12).font('Helvetica-Bold').text(para);
+            } 
+            // Format code blocks
+            else if (para.match(/^\s*(public|private|def|function|class)\s+\w+/)) {
+                doc.moveDown();
+                doc.font('Courier').text(para, {
+                    indent: 20,
+                    paragraphGap: 5
+                });
+                doc.font('Helvetica'); // Reset font
+            }
+            // Regular text
+            else {
+                doc.fontSize(11).text(para, {
+                    align: 'left',
+                    indent: 15,
+                    lineGap: 5,
+                    paragraphGap: 8,
+                    preserveLeading: true
+                });
+            }
+        });
+
+        // Footer
+        doc.moveTo(50, doc.page.height - 50)
+           .lineTo(doc.page.width - 50, doc.page.height - 50)
+           .stroke();
+        doc.fontSize(10).text(`Generated on ${new Date().toLocaleString()}`, 50, doc.page.height - 35, {
+            align: 'left'
+        });
+
+        doc.end();
+    } catch (error) {
+        console.error('Download error:', error);
+        res.status(500).send('Error generating PDF');
+    }
+});
 
 
 // Server Startup

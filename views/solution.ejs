@@ -1,0 +1,99 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Solutions</title>
+    <link rel="stylesheet" href="assignment.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Assignment Solutions</h1>
+
+        <div class="result-section">
+            <h2>Original Questions:</h2>
+            <div class="content-box">
+                <pre><%= originalText %></pre>
+            </div>
+        </div>
+
+        <div class="result-section">
+            <h2>AI-Generated Solutions:</h2>
+            <div class="solutions-box">
+                <%- solutions.replace(/\n/g, '<br>') %>
+            </div>
+        </div>
+
+        <a href="/assignment" class="back-button">
+            <i class="fas fa-arrow-left"></i> Solve Another Assignment
+        </a>
+        
+        <% if (downloadAvailable) { %>
+            <div class="download-section">
+                <h3>Download Your Solutions</h3>
+                <form action="/downloadAssignment" method="POST">
+                    <input type="hidden" name="date" value="<%= new Date().toISOString() %>">
+                    <textarea name="originalText" style="display:none;"><%= originalText %></textarea>
+                    <textarea name="solutions" style="display:none;"><%= solutions %></textarea>
+                    <button type="submit" class="download-button">
+                        <i class="fas fa-file-pdf"></i> Download as PDF
+                    </button>
+                </form>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation Results</title>
+    <link rel="stylesheet" href="/css/ans.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Assignment Solutions</h1>
+
+        <div class="result-section">
+            <h2>Extracted Content:</h2>
+            <div class="content-box">
+                <pre><%= originalText %></pre>
+            </div>
+        </div>
+
+        <div class="result-section">
+            <h2>AI Evaluation:</h2>
+            <div class="evaluation-box">
+                <%- solutions.replace(/\n/g, '<br>' ) %>
+            </div>
+        </div>
+
+        <a href="/assignment" class="back-button">Evaluate Another PDF</a>
+        <% if (downloadAvailable) { %>
+            <div class="download-section">
+                <h3>Download Your Report</h3>
+                <form action="/downloadAssignment" method="POST">
+                    <input type="hidden" name="date" value="<%= new Date().toISOString() %>">
+
+                    <textarea name="originalText" style="display:none;"><%= originalText %></textarea>
+                    <textarea name="solutions" style="display:none;"><%= solutions %></textarea>
+
+                    <button type="submit" class="download-button">
+                        <i class="fas fa-download"></i> Download Full Report (TXT)
+                    </button>
+                </form>
+            </div>
+            <% } %>
+
+    </div>
+</body>
+
+</html>

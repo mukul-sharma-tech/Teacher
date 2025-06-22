@@ -15,12 +15,7 @@ const app = express();
 
 // Middleware Configuration
 app.use(express.json());
-app.use(cors({
-    origin: 'http://localhost:5000',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type']
-}));
-
+app.use(cors());
 // Database Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://mukul:1010@nodecluster0.hurza.mongodb.net/interviewDB?retryWrites=true&w=majority';
 
@@ -1100,36 +1095,42 @@ app.post('/downloadAssignment', (req, res) => {
 
 
 
-
 app.post("/chatFriend", async (req, res) => {
-    const { message } = req.body;
-  
-    if (message.toLowerCase().startsWith("open ")) {
-      const query = message.toLowerCase().replace("open ", "").trim();
-      const domain = query.replace(/\s+/g, ""); // Remove spaces
-  
-      // Construct a direct URL and fallback search URL
-      const directUrl = `https://${domain}com`;
-      const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-  
-      // Send both options to the frontend
-      return res.json({
-        response: `Opening ${query}...`,
-        openUrl: directUrl,
-        fallbackUrl: searchUrl,
-      });
-    }
-  
-    try {
-      const chat = model.startChat({ history: [] });
-      const result = await chat.sendMessage(message);
-      const responseText = result.response.text();
-      res.json({ response: responseText });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Something went wrong!" });
-    }
-  });
+  const { message, context = [] } = req.body;
+
+  // Handle "open ..." command
+  if (message.toLowerCase().startsWith("open ")) {
+    const query = message.toLowerCase().replace("open ", "").trim();
+    const domain = query.replace(/\s+/g, "");
+    const directUrl = `https://${domain}.com`;
+    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+
+    return res.json({
+      response: `Opening ${query}...`,
+      openUrl: directUrl,
+      fallbackUrl: searchUrl,
+    });
+  }
+
+  try {
+    // Format chat history to Gemini format
+    const formattedHistory = context.map(msg => ({
+      role: msg.role === 'model' ? 'model' : 'user',
+      parts: [{ text: msg.content }]
+    }));
+
+    const chat = model.startChat({ history: formattedHistory });
+
+    const result = await chat.sendMessage(message);
+    const responseText = result.response.text();
+
+    res.json({ response: responseText });
+  } catch (error) {
+    console.error("Gemini error:", error);
+    res.status(500).json({ error: "Something went wrong!" });
+  }
+});
+
   
 
 app.get("/friend", (req, res) => {
@@ -1148,64 +1149,117 @@ app.get('/assignment', (req, res) => {
 });
 
 
+// app.post('/solveAssignment', upload.single('answerPdf'), async (req, res) => {
+//   try {
+//         // Check if file exists in memory
+//         if (!req.file) {
+//             return res.status(400).json({ error: 'No PDF file uploaded' });
+//         }
+
+//         // Parse PDF from buffer
+//         const pdfData = await pdfParse(req.file.buffer);
+//         const extractedText = pdfData.text;
+
+//         if (!extractedText || extractedText.trim().length === 0) {
+//             return res.status(400).json({ error: 'PDF is empty or could not be read' });
+//         }
+
+//         // Process with Gemini
+//         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+//         const prompt = `You are an expert academic assistant. Analyze the following assignment questions and provide comprehensive, accurate solutions:
+        
+//         Assignment Content:
+//         """
+//         ${extractedText}
+//         """
+        
+//         Requirements:
+//         1. Identify each question clearly
+//         2. Provide step-by-step solutions
+//         3. Use appropriate academic formatting
+//         4. Include explanations where needed
+//         5. Maintain professional tone`;
+
+//         const result = await model.generateContent(prompt);
+//         const response = await result.response;
+//         const solutions = response.text();
+
+//         // Generate downloadable report
+//         const reportData = {
+//             date: new Date().toISOString(),
+//             originalText: extractedText,
+//             solutions,
+//             // studentName: req.body.studentName || 'Anonymous' // Add name field to form
+//         };
+
+//         // Store report data in session for download
+//         // req.session.reportData = reportData;
+
+
+//         res.render('solution', {
+//             originalText: extractedText,
+//             solutions,
+//             downloadAvailable: true
+//         });
+
+//     } catch (error) {
+//         console.error('Error:', error);
+//         res.status(500).json({ error: error.message });
+//     }
+// });
+
 app.post('/solveAssignment', upload.single('answerPdf'), async (req, res) => {
   try {
-        // Check if file exists in memory
-        if (!req.file) {
-            return res.status(400).json({ error: 'No PDF file uploaded' });
-        }
-
-        // Parse PDF from buffer
-        const pdfData = await pdfParse(req.file.buffer);
-        const extractedText = pdfData.text;
-
-        if (!extractedText || extractedText.trim().length === 0) {
-            return res.status(400).json({ error: 'PDF is empty or could not be read' });
-        }
-
-        // Process with Gemini
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-        const prompt = `You are an expert academic assistant. Analyze the following assignment questions and provide comprehensive, accurate solutions:
-        
-        Assignment Content:
-        """
-        ${extractedText}
-        """
-        
-        Requirements:
-        1. Identify each question clearly
-        2. Provide step-by-step solutions
-        3. Use appropriate academic formatting
-        4. Include explanations where needed
-        5. Maintain professional tone`;
-
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const solutions = response.text();
-
-        // Generate downloadable report
-        const reportData = {
-            date: new Date().toISOString(),
-            originalText: extractedText,
-            solutions,
-            // studentName: req.body.studentName || 'Anonymous' // Add name field to form
-        };
-
-        // Store report data in session for download
-        // req.session.reportData = reportData;
-
-
-        res.render('solution', {
-            originalText: extractedText,
-            solutions,
-            downloadAvailable: true
-        });
-
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: error.message });
+    if (!req.file) {
+      return res.status(400).json({ error: 'No PDF file uploaded' });
     }
+
+    const pdfData = await pdfParse(req.file.buffer);
+    const extractedText = pdfData.text;
+
+    if (!extractedText || extractedText.trim().length === 0) {
+      return res.status(400).json({ error: 'PDF is empty or unreadable' });
+    }
+
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const preferredLang = req.body.language?.trim().toLowerCase();
+    const languageInstruction = preferredLang && preferredLang !== 'auto'
+      ? `Respond only in ${preferredLang}.`
+      : 'Detect the language of the assignment and respond in the same language.';
+
+    const prompt = `
+You are a multilingual academic assistant. ${languageInstruction}
+
+Analyze the following assignment and provide comprehensive, step-by-step solutions:
+
+"""
+${extractedText}
+"""
+
+Instructions:
+1. Clearly identify each question
+2. Solve each step-by-step
+3. Use professional academic formatting
+4. Include necessary explanations
+5. Maintain a helpful and professional tone
+`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const solutions = response.text();
+
+    res.render('solution', {
+      originalText: extractedText,
+      solutions,
+      downloadAvailable: true
+    });
+
+  } catch (error) {
+    console.error('Solve error:', error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 

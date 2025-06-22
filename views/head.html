@@ -508,6 +508,675 @@
                 border-top: 1px solid #e0e0e0;
             }
         }
+        
+                /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Main Layout */
+        .app-container {
+            display: flex;
+            height: 100%;
+        }
+
+        .avatar-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+        }
+
+        .chat-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-left: 1px solid #e0e0e0;
+        }
+
+        /* Avatar Container */
+        .avatar-container {
+            width: 400px;
+            height: 500px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .avatar-container.speaking {
+            transform: scale(1.05);
+        }
+
+        /* 3D Avatar Styles */
+        .avatar {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .head {
+            width: 180px;
+            height: 220px;
+            background-color: #FFDBAC;
+            border-radius: 50%;
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+
+        .hair {
+            position: absolute;
+            width: 200px;
+            height: 120px;
+            background-color: #5A3921;
+            border-radius: 50% 50% 0 0;
+            top: -30px;
+            left: -10px;
+            z-index: 5;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .face {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .eyebrows {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 45px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .eyebrow {
+            width: 40px;
+            height: 8px;
+            background-color: #5A3921;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .eyebrow.left {
+            transform: rotate(-5deg);
+        }
+
+        .eyebrow.right {
+            transform: rotate(5deg);
+        }
+
+        .eyes {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 60px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .eye {
+            width: 35px;
+            height: 25px;
+            background-color: white;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .eye::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #333;
+            border-radius: 50%;
+            top: 5px;
+            left: 10px;
+        }
+
+        .pupil {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #000;
+            border-radius: 50%;
+            top: 7px;
+            left: 12px;
+            z-index: 2;
+        }
+
+        .nose {
+            width: 20px;
+            height: 30px;
+            background-color: #E8C4A8;
+            border-radius: 30px;
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .mouth {
+            width: 60px;
+            height: 20px;
+            background-color: #FF6B6B;
+            border-radius: 0 0 30px 30px;
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.2s ease;
+            overflow: hidden;
+            z-index: 3;
+        }
+
+        .tongue {
+            position: absolute;
+            width: 40px;
+            height: 15px;
+            background-color: #FFB6C1;
+            border-radius: 20px 20px 0 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+        }
+
+        .ears {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            width: 180px;
+            top: 70px;
+        }
+
+        .ear {
+            width: 15px;
+            height: 25px;
+            background-color: #FFDBAC;
+            border-radius: 0 50% 50% 0;
+        }
+
+        .ear.left {
+            transform: rotate(-30deg) translateX(-5px);
+            border-radius: 50% 0 0 50%;
+
+        }
+
+        .ear.right {
+            transform: rotate(30deg) translateX(5px);
+        }
+
+        .blush {
+            width: 25px;
+            height: 15px;
+            background-color: rgba(255, 192, 203, 0.4);
+            border-radius: 50%;
+            position: absolute;
+            top: 100px;
+        }
+
+        .blush.left {
+            left: 25px;
+        }
+
+        .blush.right {
+            right: 25px;
+        }
+
+        /* Upper Body */
+        .upper-body {
+            position: absolute;
+            width: 200px;
+            height: 250px;
+            background-color: #6D8BFF;
+            border-radius: 20px;
+            top: 220px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .neck {
+            width: 40px;
+            height: 30px;
+            background-color: #FFDBAC;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        /* Hands */
+        .arm {
+            position: absolute;
+            width: 40px;
+            height: 120px;
+            background-color: #FFDBAC;
+            z-index: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .arm.left {
+            left: 70px;
+            top: 240px;
+            border-top-left-radius: 40px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            transform-origin: top center;
+            transform: rotate(15deg);
+        }
+
+        .arm.right {
+            right: 70px;
+            top: 240px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            border-top-right-radius: 40px;
+            transform-origin: top center;
+            transform: rotate(-15deg);
+        }
+
+        .hand {
+            position: absolute;
+            width: 32px;
+            height: 40px;
+            background-color: #d7af7a;
+            border-radius: 10px;
+            bottom: 0;
+            left: 5px;
+            transform-origin: top center;
+            transition: transform 0.2s ease;
+        }
+
+        .hand.left {
+            transform: rotate(0deg);
+        }
+
+        .hand.right {
+            transform: rotate(0deg);
+        }
+
+        .finger {
+            position: absolute;
+            width: 8px;
+            height: 35px;
+            background-color: #0a0908;
+            border-radius: 5px;
+        }
+
+        .finger-1 {
+            left: 2px;
+            top: 20px;
+            /* transform-origin: bottom center; */
+        }
+
+        .finger-2 {
+            left: 10px;
+            top: 20px;
+            /* transform-origin: bottom center; */
+        }
+
+        .finger-3 {
+            left: 18px;
+            top: 20px;
+
+            /* transform-origin: bottom center; */
+        }
+
+        .finger-4 {
+            left: 26px;
+            top: 20px;
+
+            /* transform-origin: bottom center; */
+        }
+
+
+        .thumb {
+            position: absolute;
+            width: 8px;
+            height: 25px;
+            background-color: #090908;
+            border-radius: 5px;
+            left: -5px;
+            top: 10px;
+            transform-origin: right center;
+            transform: rotate(20deg);
+        }
+
+        /* Hand animations */
+        .speaking .arm.left {
+            animation: leftArmMove 1s infinite alternate;
+        }
+
+        .speaking .arm.right {
+            animation: rightArmMove 1s infinite alternate;
+        }
+
+        .speaking .hand.left .finger {
+            animation: leftFingerMove 0.8s infinite alternate;
+        }
+
+        .speaking .hand.right .finger {
+            animation: rightFingerMove 0.8s infinite alternate;
+        }
+
+        @keyframes leftArmMove {
+            0% {
+                transform: rotate(15deg);
+            }
+
+            100% {
+                transform: rotate(25deg);
+            }
+        }
+
+        @keyframes rightArmMove {
+            0% {
+                transform: rotate(-15deg);
+            }
+
+            100% {
+                transform: rotate(-25deg);
+            }
+        }
+
+        @keyframes leftFingerMove {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(10deg);
+            }
+        }
+
+        @keyframes rightFingerMove {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(-10deg);
+            }
+        }
+
+        /* Mouth shapes for lip-sync */
+        .mouth-A {
+            height: 40px;
+            width: 50px;
+            border-radius: 0 0 40px 40px;
+        }
+
+        .mouth-A .tongue {
+            display: block;
+        }
+
+        .mouth-B {
+            height: 5px;
+            width: 40px;
+            border-radius: 0;
+        }
+
+        .mouth-C {
+            height: 25px;
+            width: 60px;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .mouth-D {
+            height: 15px;
+            width: 30px;
+            border-radius: 50%;
+        }
+
+        .mouth-E {
+            height: 20px;
+            width: 60px;
+            border-radius: 0 0 30px 30px;
+        }
+
+        /* Chat Interface */
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h2 {
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
+
+        #chat-input:focus {
+            border-color: #6D8BFF;
+            box-shadow: 0 0 0 3px rgba(109, 139, 255, 0.2);
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: #6D8BFF;
+            color: white;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .icon-button:hover {
+            background-color: #5A7AFF;
+            transform: scale(1.05);
+        }
+
+        .icon-button.active {
+            background-color: #FF6B6B;
+        }
+
+        /* Chat Messages */
+        .chat-message {
+            display: flex;
+            margin-bottom: 15px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .ai-message {
+            margin-right: auto;
+        }
+
+        .chat-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #6D8BFF;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            margin: 0 10px;
+            flex-shrink: 0;
+        }
+
+        .user-message .chat-avatar {
+            background-color: #FF6B6B;
+        }
+
+        .message-text {
+            padding: 12px 16px;
+            border-radius: 18px;
+            background-color: #f0f2f5;
+            line-height: 1.4;
+        }
+
+        .user-message .message-text {
+            background-color: #6D8BFF;
+            color: white;
+        }
+
+        .ai-message.thinking .message-text {
+            animation: pulse 1.5s infinite;
+            width: 60px;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Language Selector */
+        .language-selector {
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 15px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background-color: #6D8BFF;
+            color: white;
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hindi text support */
+        .hindi-text {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+
+            .avatar-section {
+                height: 300px;
+            }
+
+            .avatar-container {
+                width: 250px;
+                height: 350px;
+            }
+
+            .head {
+                width: 150px;
+                height: 180px;
+            }
+
+            .upper-body {
+                width: 180px;
+                height: 200px;
+                top: 150px;
+            }
+
+            .arm {
+                height: 100px;
+            }
+
+            .arm.left {
+                left: 20px;
+                top: 180px;
+            }
+
+            .arm.right {
+                right: 20px;
+                top: 180px;
+            }
+
+            .chat-section {
+                border-left: none;
+                border-top: 1px solid #e0e0e0;
+            }
+        }
     </style>
 </head>
 
@@ -517,6 +1186,29 @@
         <div class="avatar-section">
             <div id="avatar-container" class="avatar-container">
                 <div class="avatar">
+
+                                        <!-- Arms and Hands -->
+                    <div class="arm left">
+                        <div class="hand left">
+                            <div class="finger finger-1"></div>
+                            <div class="finger finger-2"></div>
+                            <div class="finger finger-3"></div>
+                            <div class="finger finger-4"></div>
+                            <div class="thumb"></div>
+                        </div>
+                    </div>
+                    <div class="arm right">
+                        <div class="hand right">
+                            <div class="finger finger-1"></div>
+                            <div class="finger finger-2"></div>
+                            <div class="finger finger-3"></div>
+                            <div class="finger finger-4"></div>
+                            <div class="thumb"></div>
+                        </div>
+                    </div>
+
+
+
                     <!-- Head and Face -->
                     <div class="head">
                         <div class="hair"></div>
@@ -557,7 +1249,7 @@
         <!-- Chat Interface Section -->
         <div class="chat-section">
             <div class="chat-header">
-                <h2>AI Assistant</h2>
+                <h2>AI Friend</h2>
                 <div class="language-selector">
                     <button class="lang-btn active" data-lang="en">EN</button>
                     <button class="lang-btn" data-lang="hi">HI</button>

@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 // Database Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://mukul:1010@nodecluster0.hurza.mongodb.net/interviewDB?retryWrites=true&w=majority';
+const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose.connect(MONGODB_URI, {
     dbName: "AiInterview",
